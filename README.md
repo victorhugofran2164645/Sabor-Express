@@ -61,7 +61,6 @@ Arestas (Conexões): Representam os possíveis trajetos entre os nós. Cada ares
 
 Essa representação em grafo é fundamental para a aplicação dos algoritmos de busca de caminho.
 
-
 2. Otimização de Rotas com Algoritmo A* (A-Star)
 Para a principal tarefa de encontrar o caminho mais curto e eficiente entre dois pontos (restaurante-cliente, entregador-cliente), o projeto implementa o algoritmo A*.
 
@@ -76,7 +75,6 @@ A decisão é tomada com base na função f(n) = g(n) + h(n). Ao priorizar os n�
 
 Por que o A?:* Foi escolhido por ser ótimo (garante encontrar o menor caminho se a heurística for admissível) e completo (sempre encontrará uma solução se ela existir), além de ser significativamente mais rápido que algoritmos não informados em grafos grandes, como os que representam cidades.
 
-
 3. Análise Comparativa com BFS e DFS
 Para validar a escolha do A* e demonstrar a superioridade de uma busca informada, o projeto realiza uma comparação de desempenho com dois algoritmos clássicos de busca não informada:
 
@@ -85,7 +83,6 @@ Busca em Largura (BFS - Breadth-First Search): Explora o grafo "camada por camad
 Busca em Profundidade (DFS - Depth-First Search): Explora o grafo seguindo um caminho até o seu "fundo" antes de retroceder (backtracking) e tentar outro. O DFS não garante encontrar o caminho mais curto e pode ser muito ineficiente se seguir por um ramo muito longo e incorreto do grafo.
 
 A comparação evidenciará como o A* economiza recursos computacionais (tempo e memória) ao direcionar a busca, um fator crítico para uma aplicação em tempo real.
-
 
 4. Agrupamento de Entregas com K-Means
 Para otimizar a logística de múltiplos pedidos, o "Sabor Express" utiliza o algoritmo de clusterização K-Means.
@@ -106,7 +103,6 @@ Os passos 3 e 4 são repetidos até que a posição dos centróides se estabiliz
 
 Aplicação no "Sabor Express": O K-Means será usado para agrupar geograficamente os pedidos pendentes. Isso permite criar "zonas de entrega". Em vez de calcular rotas individuais para pedidos dispersos, o sistema pode atribuir um cluster inteiro de entregas a um único entregador, que então terá sua rota otimizada (usando A*) para atender a todos os clientes daquele cluster. Essa abordagem reduz drasticamente as distâncias percorridas e o tempo total de operação.
 
-
 5. Arquitetura Baseada em API com Flask
 Para garantir que o sistema seja modular, escalável e acessível por diferentes plataformas (aplicativo móvel, painel web), toda a lógica de negócio será encapsulada em uma API (Interface de Programação de Aplicações) desenvolvida com Flask.
 
@@ -121,3 +117,59 @@ Administrador: Um administrador solicita o agrupamento de todas as entregas pend
 Entregador: O aplicativo do entregador consulta a API para obter sua próxima rota otimizada, que pode incluir múltiplos pontos de entrega dentro de seu cluster.
 
 Essa arquitetura desacopla a lógica complexa dos algoritmos da interface do usuário (front-end), facilitando a manutenção, os testes e futuras integrações, como a conexão com o Google Maps para visualização e navegação em tempo real.
+
+
+Algoritmos Utilizados
+
+De forma a construir uma solução robusta e eficiente, o projeto "Sabor Express" emprega uma combinação estratégica de algoritmos de Inteligência Artificial, cada um com uma função específica dentro do ecossistema de roteamento. A seguir, detalhamos cada um dos algoritmos utilizados.
+
+1. Algoritmo A* (A-Star): A Busca Inteligente pela Rota Ótima
+O A* é o coração do sistema de otimização de rotas do "Sabor Express". Ele é responsável por encontrar o caminho mais rápido e de menor custo entre dois pontos, como do restaurante ao cliente.
+
+O que é? O A* é um algoritmo de busca de caminho em grafos que se destaca por sua eficiência. Ele é considerado uma "busca informada" porque utiliza uma heurística (uma "estimativa inteligente") para guiar sua exploração, evitando caminhos que claramente não levarão à solução ótima.
+
+Como funciona? A cada passo, o A* avalia os próximos nós a serem explorados com base na seguinte função:
+f(n) = g(n) + h(n)
+Onde:
+
+g(n) é o custo real do caminho percorrido desde o ponto de partida até o nó atual (n).
+
+h(n) é o custo estimado (heurística) do nó atual (n) até o destino. No contexto de mapas, a heurística mais comum é a distância em linha reta, pois é a menor distância possível e nunca superestima o custo real.
+
+Ao priorizar os nós com o menor valor de f(n), o A* explora de forma muito mais direcionada do que uma busca "cega", convergindo rapidamente para a melhor rota possível, considerando fatores como distância e tempo de tráfego (incorporados nos pesos das arestas do grafo).
+
+Aplicação no Projeto: É o algoritmo principal para calcular a rota de entrega individual, garantindo a rota mais eficiente para cada pedido.
+
+2. Busca em Largura (BFS - Breadth-First Search): A Base de Comparação
+O BFS é implementado no projeto principalmente para fins de análise e validação, servindo como um ponto de referência para demonstrar a superioridade do A*.
+
+O que é? O BFS é um algoritmo de busca que explora um grafo de maneira "camada por camada". A partir de um nó inicial, ele visita todos os seus vizinhos diretos, depois os vizinhos desses vizinhos, e assim por diante, expandindo-se uniformemente em todas as direções.
+
+Como funciona? Ele utiliza uma estrutura de dados de fila (FIFO - First-In, First-Out) para manter o controle dos nós a serem visitados. Isso garante que ele encontre o caminho mais curto em termos de número de arestas, mas não necessariamente o caminho de menor custo total (pois ignora os pesos das arestas).
+
+Aplicação no Projeto: Serve como um benchmark. Ao comparar o tempo de execução e os recursos computacionais gastos pelo BFS com os do A*, o projeto pode quantificar a eficiência ganha ao usar uma busca informada.
+
+3. Busca em Profundidade (DFS - Depth-First Search): O Explorador Profundo
+Assim como o BFS, o DFS é implementado para fins comparativos, ilustrando uma abordagem de busca diferente e, geralmente, inadequada para otimização de rotas.
+
+O que é? O DFS é um algoritmo que explora o grafo seguindo um caminho o mais "profundo" possível. Ele avança por um ramo do grafo até não poder mais e, então, retrocede (faz o backtracking) para explorar o próximo ramo disponível.
+
+Como funciona? Ele utiliza uma estrutura de dados de pilha (LIFO - Last-In, First-Out), seja de forma explícita ou implícita através de recursão. Essa abordagem faz com que ele se aprofunde rapidamente no grafo.
+
+Aplicação no Projeto: É usado para comparar estratégias de busca. A natureza do DFS o torna inadequado para encontrar a rota mais curta, pois ele pode facilmente se perder em um caminho muito longo antes de explorar opções mais curtas. Sua inclusão serve para fins acadêmicos e para justificar a escolha de algoritmos mais sofisticados.
+
+4. Algoritmo K-Means: O Agrupador Geográfico Inteligente
+Para otimizar a logística quando há múltiplos pedidos simultâneos, o projeto utiliza o K-Means, um poderoso algoritmo de clusterização.
+
+O que é? K-Means é um algoritmo de aprendizado de máquina não supervisionado que agrupa um conjunto de pontos de dados em K clusters (grupos) distintos. O critério para o agrupamento é a proximidade: pontos no mesmo cluster estão mais próximos entre si do que de pontos em outros clusters.
+
+Como funciona? O algoritmo agrupa os endereços de entrega em K regiões geográficas. Por exemplo, se houver 3 entregadores disponíveis, o sistema pode usar o K-Means para dividir todos os pedidos pendentes em 3 clusters. Cada entregador é então designado para um cluster.
+
+Aplicação no Projeto: O K-Means é fundamental para a otimização de múltiplas entregas. Em vez de enviar um entregador para um único ponto distante, o sistema o designa para uma "zona de entrega" (um cluster). Em seguida, o algoritmo A* é novamente utilizado para traçar a rota ótima que conecta todos os pontos de entrega dentro daquele cluster, criando um tour de entrega altamente eficiente. Isso minimiza drasticamente a distância total percorrida e otimiza o tempo de todos os entregadores.
+
+
+Diagrama do grafo/modelo usado na solução
+
+![unnamed](https://github.com/user-attachments/assets/98df8248-fb88-4356-b2f4-bd0d76691152)
+
+
