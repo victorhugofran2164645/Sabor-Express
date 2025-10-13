@@ -1,5 +1,6 @@
 🛵 Sabor Express — Sistema Inteligente de Roteamento e Entregas
 
+
 📖 1. **Descrição do Problema**
 
 O aumento da demanda por serviços de delivery exige soluções eficientes para planejar rotas de entrega, reduzindo o tempo de deslocamento, custos de combustível e impacto ambiental.
@@ -13,6 +14,7 @@ Trânsito e restrições de vias;
 
 Distribuição geográfica dos pedidos.
 
+
 🎯 2. **Desafio Proposto**
 
 Desenvolver um aplicativo inteligente de roteamento de entregas chamado Sabor Express, capaz de:
@@ -25,7 +27,9 @@ Exibir um mapa de rotas em formato de grafo, mostrando conexões e custos de des
 
 Servir como base para futuras integrações com Google Maps API, GPS e bancos de dados geográficos.
 
-🎯 3. Objetivos do Projeto
+
+🎯 3. **Objetivos do Projeto**
+
 Objetivo Geral
 
 Criar um sistema inteligente de gerenciamento e otimização de rotas para entregas de alimentos, aplicando algoritmos clássicos de Inteligência Artificial.
@@ -47,7 +51,7 @@ Estruturar o código de forma modular, testável e documentada;
 Disponibilizar o projeto publicamente no GitHub com testes automatizados e pipeline CI/CD.
 
 
-Explicação detalhada da abordagem adotada
+**Explicação detalhada da abordagem adotada**
 
 
 O sistema "Sabor Express" adota uma abordagem multifacetada e inteligente para resolver o complexo problema de roteamento de entregas. A estratégia central combina algoritmos de otimização de rotas, clusterização de dados geográficos e uma arquitetura de microsserviços robusta para criar uma solução completa e eficiente. A seguir, detalhamos cada pilar da abordagem adotada.
