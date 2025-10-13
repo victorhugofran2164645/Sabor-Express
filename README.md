@@ -56,7 +56,7 @@ Disponibilizar o projeto publicamente no GitHub com testes automatizados e pipel
 
 O sistema "Sabor Express" adota uma abordagem multifacetada e inteligente para resolver o complexo problema de roteamento de entregas. A estratégia central combina algoritmos de otimização de rotas, clusterização de dados geográficos e uma arquitetura de microsserviços robusta para criar uma solução completa e eficiente. A seguir, detalhamos cada pilar da abordagem adotada.
 
-1. Modelagem do Problema como um Grafo
+**Modelagem do Problema como um Grafo**
 A base para qualquer sistema de roteamento é a representação do mundo real em um formato que um computador possa entender. O "Sabor Express" modela a área de entrega como um grafo. Nesta estrutura:
 
 Nós (Vértices): Representam os pontos de interesse: a localização do restaurante, a posição atual dos entregadores e os endereços dos clientes.
