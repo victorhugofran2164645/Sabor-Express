@@ -49,6 +49,7 @@ Disponibilizar o projeto publicamente no GitHub com testes automatizados e pipel
 
 Explicação detalhada da abordagem adotada
 
+
 O sistema "Sabor Express" adota uma abordagem multifacetada e inteligente para resolver o complexo problema de roteamento de entregas. A estratégia central combina algoritmos de otimização de rotas, clusterização de dados geográficos e uma arquitetura de microsserviços robusta para criar uma solução completa e eficiente. A seguir, detalhamos cada pilar da abordagem adotada.
 
 1. Modelagem do Problema como um Grafo
@@ -59,6 +60,7 @@ Nós (Vértices): Representam os pontos de interesse: a localização do restaur
 Arestas (Conexões): Representam os possíveis trajetos entre os nós. Cada aresta possui um peso, que pode simbolizar a distância, o tempo estimado de viagem (considerando trânsito) ou o custo de combustível.
 
 Essa representação em grafo é fundamental para a aplicação dos algoritmos de busca de caminho.
+
 
 2. Otimização de Rotas com Algoritmo A* (A-Star)
 Para a principal tarefa de encontrar o caminho mais curto e eficiente entre dois pontos (restaurante-cliente, entregador-cliente), o projeto implementa o algoritmo A*.
@@ -74,6 +76,7 @@ A decisão é tomada com base na função f(n) = g(n) + h(n). Ao priorizar os n�
 
 Por que o A?:* Foi escolhido por ser ótimo (garante encontrar o menor caminho se a heurística for admissível) e completo (sempre encontrará uma solução se ela existir), além de ser significativamente mais rápido que algoritmos não informados em grafos grandes, como os que representam cidades.
 
+
 3. Análise Comparativa com BFS e DFS
 Para validar a escolha do A* e demonstrar a superioridade de uma busca informada, o projeto realiza uma comparação de desempenho com dois algoritmos clássicos de busca não informada:
 
@@ -82,6 +85,7 @@ Busca em Largura (BFS - Breadth-First Search): Explora o grafo "camada por camad
 Busca em Profundidade (DFS - Depth-First Search): Explora o grafo seguindo um caminho até o seu "fundo" antes de retroceder (backtracking) e tentar outro. O DFS não garante encontrar o caminho mais curto e pode ser muito ineficiente se seguir por um ramo muito longo e incorreto do grafo.
 
 A comparação evidenciará como o A* economiza recursos computacionais (tempo e memória) ao direcionar a busca, um fator crítico para uma aplicação em tempo real.
+
 
 4. Agrupamento de Entregas com K-Means
 Para otimizar a logística de múltiplos pedidos, o "Sabor Express" utiliza o algoritmo de clusterização K-Means.
@@ -101,6 +105,7 @@ A posição de cada centróide é recalculada para ser a média de todos os pont
 Os passos 3 e 4 são repetidos até que a posição dos centróides se estabilize.
 
 Aplicação no "Sabor Express": O K-Means será usado para agrupar geograficamente os pedidos pendentes. Isso permite criar "zonas de entrega". Em vez de calcular rotas individuais para pedidos dispersos, o sistema pode atribuir um cluster inteiro de entregas a um único entregador, que então terá sua rota otimizada (usando A*) para atender a todos os clientes daquele cluster. Essa abordagem reduz drasticamente as distâncias percorridas e o tempo total de operação.
+
 
 5. Arquitetura Baseada em API com Flask
 Para garantir que o sistema seja modular, escalável e acessível por diferentes plataformas (aplicativo móvel, painel web), toda a lógica de negócio será encapsulada em uma API (Interface de Programação de Aplicações) desenvolvida com Flask.
