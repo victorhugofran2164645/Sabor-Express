@@ -65,7 +65,7 @@ Arestas (Conexões): Representam os possíveis trajetos entre os nós. Cada ares
 
 Essa representação em grafo é fundamental para a aplicação dos algoritmos de busca de caminho.
 
-**2. Otimização de Rotas com Algoritmo A* (A-Star)**
+**2.Otimização de Rotas com Algoritmo A (A-Star)**
 Para a principal tarefa de encontrar o caminho mais curto e eficiente entre dois pontos (restaurante-cliente, entregador-cliente), o projeto implementa o algoritmo A*.
 
 O que é o A?:* É um algoritmo de busca informada, considerado um dos mais eficientes para encontrar o caminho de menor custo em um grafo. Ele é uma extensão do algoritmo de Dijkstra, mas com uma melhoria crucial: o uso de uma heurística.
@@ -88,7 +88,7 @@ Busca em Profundidade (DFS - Depth-First Search): Explora o grafo seguindo um ca
 
 A comparação evidenciará como o A* economiza recursos computacionais (tempo e memória) ao direcionar a busca, um fator crítico para uma aplicação em tempo real.
 
-4. Agrupamento de Entregas com K-Means
+**4. Agrupamento de Entregas com K-Means**
 Para otimizar a logística de múltiplos pedidos, o "Sabor Express" utiliza o algoritmo de clusterização K-Means.
 
 O que é o K-Means?: É um algoritmo de aprendizado de máquina não supervisionado que agrupa um conjunto de dados em K clusters (grupos) distintos. O agrupamento é feito com base na similaridade, que, neste caso, é a proximidade geográfica.
@@ -107,7 +107,7 @@ Os passos 3 e 4 são repetidos até que a posição dos centróides se estabiliz
 
 Aplicação no "Sabor Express": O K-Means será usado para agrupar geograficamente os pedidos pendentes. Isso permite criar "zonas de entrega". Em vez de calcular rotas individuais para pedidos dispersos, o sistema pode atribuir um cluster inteiro de entregas a um único entregador, que então terá sua rota otimizada (usando A*) para atender a todos os clientes daquele cluster. Essa abordagem reduz drasticamente as distâncias percorridas e o tempo total de operação.
 
-5. Arquitetura Baseada em API com Flask
+**5. Arquitetura Baseada em API com Flask**
 Para garantir que o sistema seja modular, escalável e acessível por diferentes plataformas (aplicativo móvel, painel web), toda a lógica de negócio será encapsulada em uma API (Interface de Programação de Aplicações) desenvolvida com Flask.
 
 O que é Flask?: É um microframework para desenvolvimento web em Python, conhecido por sua simplicidade, flexibilidade e leveza.
@@ -123,11 +123,11 @@ Entregador: O aplicativo do entregador consulta a API para obter sua próxima ro
 Essa arquitetura desacopla a lógica complexa dos algoritmos da interface do usuário (front-end), facilitando a manutenção, os testes e futuras integrações, como a conexão com o Google Maps para visualização e navegação em tempo real.
 
 
-Algoritmos Utilizados
+**Algoritmos Utilizados**
 
 De forma a construir uma solução robusta e eficiente, o projeto "Sabor Express" emprega uma combinação estratégica de algoritmos de Inteligência Artificial, cada um com uma função específica dentro do ecossistema de roteamento. A seguir, detalhamos cada um dos algoritmos utilizados.
 
-1. Algoritmo A* (A-Star): A Busca Inteligente pela Rota Ótima
+**1. Algoritmo A (A-Star): A Busca Inteligente pela Rota Ótima**
 O A* é o coração do sistema de otimização de rotas do "Sabor Express". Ele é responsável por encontrar o caminho mais rápido e de menor custo entre dois pontos, como do restaurante ao cliente.
 
 O que é? O A* é um algoritmo de busca de caminho em grafos que se destaca por sua eficiência. Ele é considerado uma "busca informada" porque utiliza uma heurística (uma "estimativa inteligente") para guiar sua exploração, evitando caminhos que claramente não levarão à solução ótima.
@@ -144,7 +144,7 @@ Ao priorizar os nós com o menor valor de f(n), o A* explora de forma muito mais
 
 Aplicação no Projeto: É o algoritmo principal para calcular a rota de entrega individual, garantindo a rota mais eficiente para cada pedido.
 
-2. Busca em Largura (BFS - Breadth-First Search): A Base de Comparação
+**2. Busca em Largura (BFS - Breadth-First Search): A Base de Comparação**
 O BFS é implementado no projeto principalmente para fins de análise e validação, servindo como um ponto de referência para demonstrar a superioridade do A*.
 
 O que é? O BFS é um algoritmo de busca que explora um grafo de maneira "camada por camada". A partir de um nó inicial, ele visita todos os seus vizinhos diretos, depois os vizinhos desses vizinhos, e assim por diante, expandindo-se uniformemente em todas as direções.
@@ -153,7 +153,7 @@ Como funciona? Ele utiliza uma estrutura de dados de fila (FIFO - First-In, Firs
 
 Aplicação no Projeto: Serve como um benchmark. Ao comparar o tempo de execução e os recursos computacionais gastos pelo BFS com os do A*, o projeto pode quantificar a eficiência ganha ao usar uma busca informada.
 
-3. Busca em Profundidade (DFS - Depth-First Search): O Explorador Profundo
+**3. Busca em Profundidade (DFS - Depth-First Search): O Explorador Profundo**
 Assim como o BFS, o DFS é implementado para fins comparativos, ilustrando uma abordagem de busca diferente e, geralmente, inadequada para otimização de rotas.
 
 O que é? O DFS é um algoritmo que explora o grafo seguindo um caminho o mais "profundo" possível. Ele avança por um ramo do grafo até não poder mais e, então, retrocede (faz o backtracking) para explorar o próximo ramo disponível.
@@ -162,7 +162,7 @@ Como funciona? Ele utiliza uma estrutura de dados de pilha (LIFO - Last-In, Firs
 
 Aplicação no Projeto: É usado para comparar estratégias de busca. A natureza do DFS o torna inadequado para encontrar a rota mais curta, pois ele pode facilmente se perder em um caminho muito longo antes de explorar opções mais curtas. Sua inclusão serve para fins acadêmicos e para justificar a escolha de algoritmos mais sofisticados.
 
-4. Algoritmo K-Means: O Agrupador Geográfico Inteligente
+**4. Algoritmo K-Means: O Agrupador Geográfico Inteligente**
 Para otimizar a logística quando há múltiplos pedidos simultâneos, o projeto utiliza o K-Means, um poderoso algoritmo de clusterização.
 
 O que é? K-Means é um algoritmo de aprendizado de máquina não supervisionado que agrupa um conjunto de pontos de dados em K clusters (grupos) distintos. O critério para o agrupamento é a proximidade: pontos no mesmo cluster estão mais próximos entre si do que de pontos em outros clusters.
@@ -172,16 +172,16 @@ Como funciona? O algoritmo agrupa os endereços de entrega em K regiões geográ
 Aplicação no Projeto: O K-Means é fundamental para a otimização de múltiplas entregas. Em vez de enviar um entregador para um único ponto distante, o sistema o designa para uma "zona de entrega" (um cluster). Em seguida, o algoritmo A* é novamente utilizado para traçar a rota ótima que conecta todos os pontos de entrega dentro daquele cluster, criando um tour de entrega altamente eficiente. Isso minimiza drasticamente a distância total percorrida e otimiza o tempo de todos os entregadores.
 
 
-Diagrama do grafo/modelo usado na solução
+**Diagrama do grafo/modelo usado na solução**
 
 ![unnamed](https://github.com/user-attachments/assets/98df8248-fb88-4356-b2f4-bd0d76691152)
 
 
-Análise dos resultados, eficiência da solução, limitações encontradas e sugestões
-de melhoria.
+**Análise dos resultados, eficiência da solução, limitações encontradas e sugestões
+de melhoria.**
 
 
-1. Análise dos Resultados Esperados
+**1. Análise dos Resultados Esperados**
 Assumindo a implementação bem-sucedida dos objetivos propostos, os resultados do projeto seriam altamente positivos e mensuráveis em diferentes frentes.
 
 Validação da Escolha do Algoritmo: A comparação de desempenho demonstraria inequivocamente a superioridade do A* sobre o BFS e o DFS. Enquanto BFS e DFS explorariam um número muito maior de nós (caminhos) desnecessários, o A* convergiria para a rota ótima com uma redução drástica no tempo de computação e no uso de memória. O resultado seria um gráfico comparativo claro mostrando que o A* é a única opção viável para uma aplicação em tempo real.
@@ -190,7 +190,7 @@ Eficiência Logística com K-Means: A aplicação do K-Means resultaria na cria�
 
 Funcionalidade da API (Flask): O resultado seria uma API robusta e funcional, com endpoints claros (ex: /calcular-rota, /clusterizar-pedidos). A API seria capaz de receber coordenadas geográficas, processá-las através dos algoritmos e retornar a solução (uma sequência de coordenadas da rota ou a atribuição de pedidos a clusters) em um formato padrão como JSON, pronta para ser consumida por qualquer front-end (aplicativo móvel, painel web).
 
-2. Eficiência da Solução
+**2. Eficiência da Solução**
 A eficiência do "Sabor Express" pode ser analisada sob duas óticas: computacional e operacional.
 
 Eficiência Computacional: A escolha do A* é o pilar da eficiência computacional. Ao usar uma heurística para guiar a busca, ele evita a "explosão combinatória" de rotas possíveis que tornaria uma abordagem de força bruta (como o BFS em grafos com pesos) impraticável para mapas de cidades reais. A solução é rápida o suficiente para fornecer rotas em segundos, atendendo aos requisitos de uma operação de delivery dinâmica.
@@ -205,7 +205,7 @@ Aumento da Capacidade: Entregadores mais eficientes podem realizar um número ma
 
 Satisfação do Cliente: Entregas mais rápidas resultam em comida chegando mais quente e em uma melhor experiência para o cliente, fomentando a fidelidade.
 
-3. Limitações Encontradas (e Potenciais)
+**3. Limitações Encontradas (e Potenciais)**
 Nenhuma solução é perfeita, e um projeto robusto deve reconhecer suas limitações.
 
 Modelo de Grafo Estático e Trânsito: A principal limitação do modelo proposto é que os "custos" (pesos das arestas, ex: 5 min) são estáticos. O mundo real é dinâmico. O trânsito varia drasticamente dependendo do horário, dia da semana ou eventos inesperados. A solução atual não conseguiria, por exemplo, desviar de um congestionamento súbito.
@@ -222,7 +222,7 @@ A capacidade do veículo do entregador (quantos pedidos ele pode carregar).
 
 Janelas de tempo de entrega prometidas aos clientes.
 
-4. Sugestões de Melhoria e Próximos Passos
+**4. Sugestões de Melhoria e Próximos Passos**
 As limitações identificadas abrem caminho para uma série de melhorias poderosas.
 
 Integração com APIs em Tempo Real (Alta Prioridade): A melhoria mais impactante seria substituir os pesos estáticos do grafo por dados dinâmicos. Integrar a solução com a API do Google Maps Directions ou Waze permitiria que os custos das rotas fossem calculados com base no trânsito em tempo real, tornando o "Sabor Express" verdadeiramente inteligente e adaptativo.
