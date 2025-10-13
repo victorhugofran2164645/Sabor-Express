@@ -65,7 +65,7 @@ Arestas (Conexões): Representam os possíveis trajetos entre os nós. Cada ares
 
 Essa representação em grafo é fundamental para a aplicação dos algoritmos de busca de caminho.
 
-2. Otimização de Rotas com Algoritmo A* (A-Star)
+**2. Otimização de Rotas com Algoritmo A* (A-Star)**
 Para a principal tarefa de encontrar o caminho mais curto e eficiente entre dois pontos (restaurante-cliente, entregador-cliente), o projeto implementa o algoritmo A*.
 
 O que é o A?:* É um algoritmo de busca informada, considerado um dos mais eficientes para encontrar o caminho de menor custo em um grafo. Ele é uma extensão do algoritmo de Dijkstra, mas com uma melhoria crucial: o uso de uma heurística.
@@ -79,7 +79,7 @@ A decisão é tomada com base na função f(n) = g(n) + h(n). Ao priorizar os n�
 
 Por que o A?:* Foi escolhido por ser ótimo (garante encontrar o menor caminho se a heurística for admissível) e completo (sempre encontrará uma solução se ela existir), além de ser significativamente mais rápido que algoritmos não informados em grafos grandes, como os que representam cidades.
 
-3. Análise Comparativa com BFS e DFS
+**3. Análise Comparativa com BFS e DFS**
 Para validar a escolha do A* e demonstrar a superioridade de uma busca informada, o projeto realiza uma comparação de desempenho com dois algoritmos clássicos de busca não informada:
 
 Busca em Largura (BFS - Breadth-First Search): Explora o grafo "camada por camada". A partir de um nó inicial, visita todos os seus vizinhos diretos, depois os vizinhos dos vizinhos, e assim por diante. O BFS é ótimo para encontrar o caminho mais curto em termos de número de arestas (não de custo/peso), mas é ineficiente em grafos grandes, pois explora em todas as direções de forma "cega".
