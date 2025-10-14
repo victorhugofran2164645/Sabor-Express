@@ -122,7 +122,9 @@ curl -X POST -H "Content-Type: application/json" \
 }
 ```
 **Arquivos de dados utilizados**
+
 locais.csv
+
 nome,latitude,longitude
 Restaurante,0,0
 Entregador A,-5,1
@@ -134,6 +136,7 @@ Cliente 5,3,-5
 Cruzamento 1,-4,5
 
 rotas.csv
+
 origem,destino,custo
 Restaurante,Cruzamento 2,4
 Restaurante,Cliente 5,6
