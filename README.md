@@ -121,3 +121,27 @@ curl -X POST -H "Content-Type: application/json" \
     }
 }
 ```
+**Arquivos de dados utilizados**
+locais.csv
+nome,latitude,longitude
+Restaurante,0,0
+Entregador A,-5,1
+Cliente 1,-7,4
+Cliente 2,-2,8
+Cliente 3,5,9
+Cliente 4,8,2
+Cliente 5,3,-5
+Cruzamento 1,-4,5
+
+rotas.csv
+origem,destino,custo
+Restaurante,Cruzamento 2,4
+Restaurante,Cliente 5,6
+Cruzamento 2,Cliente 3,5
+Cruzamento 2,Cliente 4,5
+Cruzamento 2,Cruzamento 1,7
+Cruzamento 1,Cliente 2,3
+Cruzamento 1,Cliente 1,4
+Cruzamento 1,Entregador A,2
+Cliente 1,Entregador A,3
+Cruzamento 2,3,4
