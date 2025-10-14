@@ -151,7 +151,5 @@ Cruzamento 2,3,4
 
 
 ### Diagrama do Modelo de Grafo
-![Diagrama do Grafo do Sabor Express](https://github.com/user-attachments/assets/b24bdfb2-c271-4ad1-936d-ff3fa9f1eda7))![unnamed](https://github.com/user-attachments/assets/b24bdfb2-c271-4ad1-936d-ff3fa9f1eda7)
-
-*Descrição: Diagrama conceitual do grafo que representa o mapa de entregas...*
+![Diagrama do Grafo do Sabor Express](https://github.com/user-attachments/assets/b24bdfb2-c271-4ad1-936d-ff3fa9f1eda7))
 
