@@ -151,13 +151,7 @@ Cruzamento 2,3,4
 
 
 ### Diagrama do Modelo de Grafo
-![Diagrama do Grafo do Sabor Express](https://i.imgur.com/8Q5F4t3.png)
+![Diagrama do Grafo do Sabor Express](https://github.com/user-attachments/assets/b24bdfb2-c271-4ad1-936d-ff3fa9f1eda7))![unnamed](https://github.com/user-attachments/assets/b24bdfb2-c271-4ad1-936d-ff3fa9f1eda7)
+
 *Descrição: Diagrama conceitual do grafo que representa o mapa de entregas...*
 
-### Visualização da Rota Ótima (Resultado do A*)
-![Visualização da Rota Ótima A*](https://i.imgur.com/kYv0m3J.png)
-*Descrição: Exemplo de uma rota ótima calculada pelo algoritmo A*...*
-
-### Visualização da Clusterização de Entregas (Resultado do K-Means)
-![Visualização dos Clusters de Entrega](https://i.imgur.com/c9tX2R6.png)
-*Descrição: Resultado do algoritmo K-Means para agrupar pedidos...*
