@@ -98,4 +98,24 @@ Ele permite que restaurantes ou serviços de delivery **reduzam tempo e custo de
 ## 🛠️ 6️⃣ Parte Prática — Código, Dados e Outputs
 
 ### Estrutura do Projeto
+Sabor-Express/
+├── app/
+│ ├── core/
+│ │ ├── algoritmos.py
+│ │ ├── clusterizacao.py
+│ │ └── grafo.py
+│ ├── models/
+│ ├── templates/
+│ └── main.py
+├── data/
+│ ├── locais.csv
+│ └── rotas.csv
+├── docs/
+│ ├── grafo.png
+│ └── clusterizacao.png
+├── scripts/
+│ ├── gerar_grafo.py
+│ └── gerar_clusterizacao.py
+├── requirements.txt
+└── README.md
 
