@@ -118,7 +118,7 @@ def api_clusterizar():
 if __name__ == "__main__":
     app.run(debug=True)
 
-##🧮 5️⃣ Dados de Entrada##
+##🧮 5️⃣ Dados de Entrada
 data/locais.csv
 
 cs
