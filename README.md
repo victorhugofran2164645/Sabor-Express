@@ -1,302 +1,101 @@
-# Sabor Express — Sistema Inteligente de Roteamento e Entregas
+# 🍔 Sabor Express — Sistema Inteligente de Roteamento e Entregas
 
-Este projeto implementa um backend inteligente para otimização de rotas de entrega, utilizando algoritmos clássicos de Inteligência Artificial e expondo a funcionalidade através de uma API RESTful construída com Flask.
+O **Sabor Express** é um sistema de otimização de rotas de entrega, que utiliza algoritmos clássicos de Inteligência Artificial e fornece uma **API RESTful** para calcular rotas e clusterizar pedidos de forma eficiente.  
 
-## 📌 Descrição do Problema, Desafio Proposto e Objetivos
+Ele permite que restaurantes ou serviços de delivery **reduzam tempo e custo de entregas**, distribuam pedidos de forma equilibrada entre entregadores e avaliem diferentes algoritmos de roteamento.
 
-**Problema:** otimizar a operação de entregas para uma pequena rede de restaurantes, reduzindo tempo e custo total das rotas e balanceando a carga de trabalho entre entregadores.  
-**Desafio:** projetar um sistema que, com dados limitados (lista de locais e conexões com custo), seja capaz de:
+---
+
+## 📌 1️⃣ Descrição do Problema, Desafio Proposto e Objetivos
+
+**Problema:** Reduzir tempo e custo das entregas em uma rede de restaurantes, mantendo a eficiência e balanceamento entre entregadores.
+
+**Desafio:** Criar um sistema capaz de:
 - Calcular rotas individuais eficientes entre pontos (origem → destino);
-- Agrupar pedidos geograficamente em zonas para atribuição a entregadores;
-- Permitir comparações entre estratégias de busca para análise didática e experimental.  
+- Agrupar pedidos geograficamente em zonas de entrega;
+- Comparar algoritmos de busca para análise de desempenho.
 
-**Objetivos do projeto:**
-1. Implementar uma API RESTful que exponha serviços de cálculo de rota e clusterização de pedidos.  
-2. Aplicar algoritmos clássicos de IA (A*, BFS, DFS) para busca em grafos e K-Means para clusterização geográfica.  
-3. Criar um formato de dados simples (CSV) para facilitar testes offline e reprodutibilidade.  
-4. Fornecer documentação, exemplos e ferramentas para que qualquer usuário consiga rodar o sistema localmente.
-
----
-
-## 🧭 Explicação Detalhada da Abordagem Adotada
-
-### 1) Modelagem dos Dados
-- **Nós:** cada local (restaurante, cliente, entregador, cruzamento) é um nó no grafo, identificado por nome e coordenadas (latitude, longitude).  
-- **Arestas:** as conexões entre nós têm um atributo `custo` que representa tempo/energia/distância entre os pontos (valor arbitrário definido em `rotas.csv`).  
-
-### 2) Rotas (Busca em Grafos)
-- Para calcular uma rota entre dois nós, o sistema carrega o grafo (lista de nós + arestas) e aplica um algoritmo de busca:
-  - **A\***: usa heurística (distância euclidiana entre nó atual e objetivo) para guiar a busca; retorna caminho de menor custo.  
-  - **BFS**: explora por camadas, útil para menor número de arestas (quando arestas têm custo uniforme).  
-  - **DFS**: varre profundidade primeiro — incluído para fins comparativos e educacionais.  
-
-### 3) Clusterização de Pedidos
-- Para dividir pedidos entre `k` entregadores, usa-se **K-Means** sobre as coordenadas (latitude, longitude) dos pedidos.  
-- Após a atribuição, cada cluster representa a zona de entrega de um entregador; rota final dentro do cluster pode usar A* para ordenação de entrega (heurísticas TSP simples podem ser aplicadas).
-
-### 4) API e Fluxo
-- Endpoints principais:
-  - `POST /api/rota` — recebe `{inicio, fim, algoritmo}` e retorna `{caminho, custo}`.
-  - `POST /api/clusterizar` — recebe `{pedidos, num_entregadores}` e retorna clusters por entregador.
-- O fluxo padrão: carregar `locais.csv` + `rotas.csv` → construir grafo → executar algoritmo escolhido → devolver JSON.
+**Objetivos:**
+1. Criar uma API funcional usando **Flask**;
+2. Implementar algoritmos de busca (**A\***, BFS, DFS) e clusterização (**K-Means**);
+3. Utilizar dados simples (CSV) para testes e simulações;
+4. Documentar o projeto de forma clara para execução imediata.
 
 ---
 
-## ⚙️ Algoritmos Utilizados (resumo técnico)
+## 🧭 2️⃣ Abordagem Adotada
 
-### A* (A-star)
-- **Entrada:** grafo, nó inicial, nó objetivo, função heurística (h).
-- **Heurística usada:** distância euclidiana entre coordenadas (admissível se custo ≥ distância direta).  
-- **Complexidade:** depende da heurística; no pior caso O(b^d) onde b é fator de ramificação e d profundidade, mas geralmente muito mais eficiente que busca cega.
+### Modelagem dos Dados
+- **Nós:** restaurantes, clientes, entregadores, cruzamentos.  
+- **Arestas:** conexões com custo entre os nós, definidas em `rotas.csv`.
 
-### BFS (Breadth-First Search)
-- **Uso:** encontrar caminho com menor número de arestas (quando arestas tem custo uniforme).  
-- **Complexidade:** O(V + E) em tempo e O(V) em memória (V = vértices, E = arestas).
+### Rotas (Busca em Grafos)
+- **A\***: encontra caminho de menor custo usando heurística (distância euclidiana).  
+- **BFS**: menor número de arestas (útil para grafos não ponderados).  
+- **DFS**: exploração em profundidade para comparação.
 
-### DFS (Depth-First Search)
-- **Uso:** comparação; pode encontrar caminhos profundos rapidamente, mas não garante optimalidade.  
-- **Complexidade:** O(V + E) em tempo, pode ter uso menor de memória em certos grafos.
+### Clusterização de Pedidos
+- **K-Means**: agrupa pedidos em zonas de entrega para cada entregador.
 
-### K-Means
-- **Entrada:** coordenadas dos pedidos, k = número de entregadores.  
-- **Saída:** k clusters (cada cluster contém índices/nome dos pedidos).  
-- **Observação:** K-Means assume clusters convexos; em geografias complexas, pode não refletir rotas reais (considerar clustering via distância por grafo).
+### Fluxo do Sistema
+1. Carregar dados do grafo (`locais.csv` e `rotas.csv`)  
+2. Construir grafo em memória  
+3. Executar algoritmo escolhido (A*, BFS, DFS)  
+4. Clusterizar pedidos com K-Means  
+5. Retornar resultados via JSON na API
 
 ---
 
-## 🗺️ Diagrama do Grafo / Modelo (ASCII)
+## ⚙️ 3️⃣ Algoritmos Utilizados
 
-markdown
-Copiar código
-        Restaurante
-        /     \
- (4)  /       \ (6)
-    /           \
-Cruzamento2 ------ Cliente5
-/ |
-(7) | (5)
-/
-Cruzamento1 Cliente3
-/ |
-(2) (4) (3)
-Ent. Cliente1 Cliente2
+| Algoritmo | Finalidade | Complexidade | Observação |
+|-----------|------------|--------------|------------|
+| **A\***  | Rota mais curta | O(b^d) | Ideal para grafos ponderados |
+| **BFS**  | Menor número de arestas | O(V+E) | Útil em grafos não ponderados |
+| **DFS**  | Exploração em profundidade | O(V+E) | Comparação, não garante ótimo |
+| **K-Means** | Clusterização de pedidos | O(n·k·i) | Agrupa pedidos por proximidade |
 
-css
-Copiar código
+---
 
-> Legenda: números entre parênteses representam custo da aresta.  
-> Observação: para o README, recomendo um arquivo `assets/grafo.png` com o mesmo diagrama gerado por código (ex.: Matplotlib + NetworkX) para visual mais profissional.
+## 🗺️ 4️⃣ Diagrama do Grafo / Modelo
 
-**Sugestão de comando** (gera imagem localmente):
-```python
-# Exemplo rápido (NetworkX + Matplotlib)
-import networkx as nx
-import matplotlib.pyplot as plt
-G = nx.DiGraph()
-G.add_weighted_edges_from([
-  ("Restaurante","Cruzamento2",4),
-  ("Restaurante","Cliente5",6),
-  ("Cruzamento2","Cliente3",5),
-  ("Cruzamento2","Cliente4",5),
-  ("Cruzamento2","Cruzamento1",7),
-  ("Cruzamento1","Cliente2",3),
-  ("Cruzamento1","Cliente1",4),
-  ("Cruzamento1","Entregador A",2),
-])
-pos = nx.spring_layout(G)  # ou pos baseado em coordenadas reais
-nx.draw(G, pos, with_labels=True, node_size=800)
-labels = nx.get_edge_attributes(G,'weight')
-nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-plt.savefig('assets/grafo.png', dpi=200)
-📈 Análise dos Resultados, Eficiência, Limitações e Sugestões de Melhoria
-Análise de Resultados (o que medir)
-Custo total da rota: soma dos pesos das arestas para cada entrega.
+![Grafo](docs/grafo.png)
 
-Tempo médio por entrega: aproximação com custos convertidos para tempo.
+> Mostra todos os nós (clientes, cruzamentos, entregadores) e arestas com pesos.
 
-Balanceamento de carga: número de pedidos por entregador após clusterização.
+---
 
-Comparativo A/BFS/DFS:* tempo de execução e custo/qualidade do caminho encontrado.
+## 📈 5️⃣ Análise dos Resultados, Eficiência e Limitações
 
-Eficiência
-A* tende a entregar o melhor compromisso entre tempo de busca e custo do caminho se a heurística for informativa.
+### Resultados
+- **Custo total da rota:** soma dos pesos das arestas.  
+- **Tempo médio por entrega:** estimativa via custo das arestas.  
+- **Balanceamento de carga:** número de pedidos por entregador.  
 
-BFS/DFS são úteis para comparação; BFS é ótima em grafos não ponderados, DFS não é recomendada para busca ótima.
+### Eficiência
+- **A\***: ótimo equilíbrio entre custo e tempo.  
+- **BFS/DFS**: usados para comparação de desempenho.  
+- **K-Means**: rápido e escalável para clusterização.
 
-K-Means é rápido e escalável, mas sua qualidade depende da distribuição geográfica dos pedidos.
+### Limitações
+1. Dados simplificados, sem trânsito real.  
+2. K-Means ignora barreiras físicas.  
+3. Sistema offline, sem otimização em tempo real.  
+4. Escalabilidade limitada a pequenas cidades ou poucos pedidos.
 
-Limitações conhecidas
-Dados discretos e simplificados: custos são fixos em rotas.csv — não refletem trânsito, horários, bloqueios.
+### Sugestões de Melhoria
+- Integrar dados reais de mapas (OpenStreetMap / Google Directions).  
+- Implementar TSP / VRP para multi-entregador.  
+- Clusterização baseada em grafo ou distância real.  
+- Re-otimização em tempo real.  
 
-Heurística A*: se heurística não for admissível, A* pode não ser ótima.
+---
 
-K-Means não considera estradas: clusterização por coordenada pode agrupar pontos separados por barreiras (rios, rodovias sem ligação direta).
+## 🛠️ 6️⃣ Parte Prática — Código, Dados e Outputs
 
-Escalabilidade: para centenas de entregas e restrições (janela de tempo, capacidade), será necessário otimizar ou usar heurísticas avançadas / metaheurísticas.
-
-Estado estático: sistema atual é offline — não lida com pedidos em tempo real nem com reotimizações dinâmicas.
-
-Sugestões de Melhoria
-Integrar dados reais de mapa (OpenStreetMap ou Google Directions) para gerar custos baseados em distância/tempo rodoviário.
-
-Adicionar um módulo TSP / VRP (Vehicle Routing Problem) para otimização multi-entregador com restrições reais (capacidade, janelas de tempo).
-
-Clustering baseado em grafo: usar algoritmos que considerem custo em grafo (ex.: spectral clustering com matriz de distâncias por caminho mínimo).
-
-Monitoramento e re-otimização em tempo real: permitir re-roteamento quando um entregador muda de rota ou um pedido é cancelado.
-
-Benchmark automatizado: scripts que rodem A*, BFS, DFS em múltiplos pares (início, fim) e gerem relatório com tempos e custos para análise.
-
-Containerização e CI: Docker + GitHub Actions para testes automatizados e builds reprodutíveis.
+### Estrutura do Projeto
 
 
-
-## Funcionalidades Principais
-
-* **Cálculo de Rota Ótima**: Utiliza o algoritmo A* para encontrar o caminho mais rápido (menor custo) entre dois pontos em um mapa modelado como um grafo.
-* **Comparação de Algoritmos**: Permite o cálculo de rotas usando BFS e DFS para fins de análise e comparação de desempenho.
-* **Clusterização de Entregas**: Emprega o algoritmo K-Means para agrupar geograficamente múltiplos pedidos, permitindo a criação de zonas de entrega otimizadas para os entregadores.
-
-## Estrutura do Projeto
-
-O projeto segue uma arquitetura modular para garantir a separação de responsabilidades e a manutenibilidade.
-
-```
-Sabor-Express/
-├── app/
-│   ├── core/              # "Cérebro" do projeto com a lógica de IA
-│   │   ├── algoritmos.py
-│   │   ├── clusterizacao.py
-│   │   └── grafo.py
-│   ├── models/            # Modelos de dados da aplicação
-│   ├── templates/         # Arquivos de interface (HTML)
-│   └── main.py            # Servidor da API Flask e definição das rotas
-│
-├── venv/                  # Ambiente virtual (ignorado pelo .gitignore)
-├── requirements.txt       # Dependências do projeto
-└── README.md              # Esta documentação
-```
-
-## Como Executar
-
-### 1. Pré-requisitos
-
-* Python 3.8+
-* pip
-
-### 2. Instalação
-
-Clone o repositório e instale as dependências:
-
-```bash
-git clone [https://github.com/victorhugofran2164645/Sabor-Express.git](https://github.com/victorhugofran2164645/Sabor-Express.git)
-cd Sabor-Express
-pip install -r requirements.txt
-```
-
-### 3. Executando a API
-
-Para iniciar o servidor Flask, execute:
-
-```bash
-python app/main.py
-```
-
-O servidor estará rodando em `http://127.0.0.1:5000`.
-
-## Como Usar a API
-
-Você pode interagir com a API usando ferramentas como `curl` ou Postman.
-
-### Exemplo 1: Calcular uma Rota
-
-**Endpoint:** `POST /api/rota`
-
-Calcula o caminho entre um ponto de início e um de fim.
-
-**Comando de Exemplo:**
-
-```bash
-curl -X POST -H "Content-Type: application/json" \
--d '{"inicio": "Restaurante", "fim": "Cliente 1", "algoritmo": "a_star"}' \
-[http://127.0.0.1:5000/api/rota](http://127.0.0.1:5000/api/rota)
-```
-
-**Resposta Esperada:**
-
-```json
-{
-  "algoritmo": "a_star",
-  "caminho": [
-    "Restaurante",
-    "Cruzamento 2",
-    "Cruzamento 1",
-    "Cliente 1"
-  ],
-  "custo": 15
-}
-```
-
-### Exemplo 2: Agrupar Pedidos (Clusterizar)
-
-**Endpoint:** `POST /api/clusterizar`
-
-Agrupa uma lista de pedidos em um número definido de clusters (zonas de entrega).
-
-**Comando de Exemplo:**
-
-```bash
-curl -X POST -H "Content-Type: application/json" \
--d '{
-      "pedidos": ["Cliente 1", "Cliente 2", "Cliente 3", "Cliente 4"],
-      "num_entregadores": 2
-    }' \
-[http://127.0.0.1:5000/api/clusterizar](http://127.0.0.1:5000/api/clusterizar)
-```
-
-**Resposta Esperada:**
-
-```json
-{
-    "clusters_de_entrega": {
-        "0": [
-            "Cliente 3",
-            "Cliente 4"
-        ],
-        "1": [
-            "Cliente 1",
-            "Cliente 2"
-        ]
-    }
-}
-```
-**Arquivos de dados utilizados**
-
-locais.csv
-
-nome,latitude,longitude
-Restaurante,0,0
-Entregador A,-5,1
-Cliente 1,-7,4
-Cliente 2,-2,8
-Cliente 3,5,9
-Cliente 4,8,2
-Cliente 5,3,-5
-Cruzamento 1,-4,5
-
-rotas.csv
-
-origem,destino,custo
-Restaurante,Cruzamento 2,4
-Restaurante,Cliente 5,6
-Cruzamento 2,Cliente 3,5
-Cruzamento 2,Cliente 4,5
-Cruzamento 2,Cruzamento 1,7
-Cruzamento 1,Cliente 2,3
-Cruzamento 1,Cliente 1,4
-Cruzamento 1,Entregador A,2
-Cliente 1,Entregador A,3
-Cruzamento 2,3,4
 
 
 ### Diagrama do Modelo de Grafo
