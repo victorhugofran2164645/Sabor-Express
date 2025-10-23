@@ -9,7 +9,7 @@
 
 ## 🚀 Descrição Geral
 
-O **Sabor Express** é um sistema de otimização inteligente de rotas de entrega, que utiliza algoritmos clássicos de Inteligência Artificial e fornece uma **API RESTful** para:
+O **Sabor Express** é um sistema de **otimização inteligente de rotas de entrega**, que utiliza algoritmos clássicos de Inteligência Artificial e fornece uma **API RESTful** para:
 
 - Calcular rotas eficientes;
 - Clusterizar pedidos por localização;
@@ -19,11 +19,13 @@ O **Sabor Express** é um sistema de otimização inteligente de rotas de entreg
 
 ---
 
-## 📌 1️⃣ Descrição do Problema e Objetivos
+## 📌 1️⃣ Descrição do Problema, Desafio e Objetivos
 
-**Problema:** Minimizar o tempo e o custo das entregas, mantendo balanceamento entre entregadores.
+**Problema:**  
+Minimizar o tempo e o custo das entregas, mantendo balanceamento entre entregadores.
 
-**Desafio:** Criar um sistema capaz de:
+**Desafio:**  
+Criar um sistema capaz de:
 
 - Calcular rotas individuais eficientes (origem → destino);
 - Agrupar pedidos em zonas geográficas;
@@ -31,7 +33,7 @@ O **Sabor Express** é um sistema de otimização inteligente de rotas de entreg
 
 **Objetivos Técnicos:**
 
-- Criar uma API funcional usando Flask;
+- Criar uma API funcional usando **Flask**;
 - Implementar algoritmos **A\***, **BFS**, **DFS** e **K-Means**;
 - Usar dados simples (CSV) para simulação;
 - Documentar o projeto para execução imediata.
@@ -58,9 +60,9 @@ O **Sabor Express** é um sistema de otimização inteligente de rotas de entreg
 
 1. Carregar dados (`locais.csv` e `rotas.csv`)  
 2. Construir o grafo  
-3. Executar o algoritmo de busca escolhido  
+3. Executar o algoritmo de busca escolhido (**A\***, BFS ou DFS)  
 4. Clusterizar pedidos com **K-Means**  
-5. Retornar resultados via **JSON** na API  
+5. Retornar resultados via JSON na API  
 
 ---
 
@@ -94,7 +96,7 @@ Copiar código
 
 ## 🧩 4️⃣ Principais Códigos
 
-### Exemplo: API Flask
+### API Flask
 
 ```python
 from flask import Flask, request, jsonify
@@ -117,11 +119,9 @@ def api_clusterizar():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-##🧮 5️⃣ Dados de Entrada
+🧮 5️⃣ Dados de Entrada
 data/locais.csv
-
-cs
+csv
 Copiar código
 nome,latitude,longitude
 Restaurante,0,0
@@ -133,7 +133,6 @@ Cliente 4,8,2
 Cliente 5,3,-5
 Cruzamento 1,-4,5
 data/rotas.csv
-
 csv
 Copiar código
 origem,destino,custo
@@ -157,7 +156,7 @@ Copiar código
 Clusterização de Pedidos (/api/clusterizar)
 Saída visual: docs/clusterizacao.png
 
-Diagrama de grafo: docs/grafo.png
+Diagrama do grafo: docs/grafo.png
 
 
 
@@ -227,6 +226,3 @@ Este projeto está licenciado sob a MIT License — veja o arquivo LICENSE para 
 
 🏁 Status do Projeto
 🚧 Em desenvolvimento ativo — versão inicial funcional com API Flask, algoritmos de busca e clusterização implementados.
-
-yaml
-Copiar código
