@@ -1,12 +1,6 @@
 🍔 Sabor Express — Sistema Inteligente de Roteamento e Entregas
 
 
-
-
-
-
-
-
 🚀 Descrição Geral
 
 O Sabor Express é um sistema de otimização inteligente de rotas de entrega, que utiliza algoritmos clássicos de Inteligência Artificial e fornece uma API RESTful para:
@@ -17,12 +11,19 @@ Clusterizar pedidos por localização;
 
 Comparar desempenho entre algoritmos de busca.
 
+
+
+
 💡 Objetivo: reduzir o tempo e custo de entregas para restaurantes ou serviços de delivery, mantendo equilíbrio entre entregadores.
+
+
 
 📌 1️⃣ Descrição do Problema e Objetivos
 
 Problema:
 Minimizar o tempo e o custo das entregas, mantendo balanceamento entre entregadores.
+
+
 
 Desafio:
 Criar um sistema capaz de:
@@ -32,6 +33,8 @@ Calcular rotas individuais eficientes (origem → destino);
 Agrupar pedidos em zonas geográficas;
 
 Avaliar desempenho de algoritmos de busca e clusterização.
+
+
 
 Objetivos Técnicos:
 
