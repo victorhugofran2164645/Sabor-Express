@@ -2,6 +2,155 @@
 
 Este projeto implementa um backend inteligente para otimização de rotas de entrega, utilizando algoritmos clássicos de Inteligência Artificial e expondo a funcionalidade através de uma API RESTful construída com Flask.
 
+## 📌 Descrição do Problema, Desafio Proposto e Objetivos
+
+**Problema:** otimizar a operação de entregas para uma pequena rede de restaurantes, reduzindo tempo e custo total das rotas e balanceando a carga de trabalho entre entregadores.  
+**Desafio:** projetar um sistema que, com dados limitados (lista de locais e conexões com custo), seja capaz de:
+- Calcular rotas individuais eficientes entre pontos (origem → destino);
+- Agrupar pedidos geograficamente em zonas para atribuição a entregadores;
+- Permitir comparações entre estratégias de busca para análise didática e experimental.  
+
+**Objetivos do projeto:**
+1. Implementar uma API RESTful que exponha serviços de cálculo de rota e clusterização de pedidos.  
+2. Aplicar algoritmos clássicos de IA (A*, BFS, DFS) para busca em grafos e K-Means para clusterização geográfica.  
+3. Criar um formato de dados simples (CSV) para facilitar testes offline e reprodutibilidade.  
+4. Fornecer documentação, exemplos e ferramentas para que qualquer usuário consiga rodar o sistema localmente.
+
+---
+
+## 🧭 Explicação Detalhada da Abordagem Adotada
+
+### 1) Modelagem dos Dados
+- **Nós:** cada local (restaurante, cliente, entregador, cruzamento) é um nó no grafo, identificado por nome e coordenadas (latitude, longitude).  
+- **Arestas:** as conexões entre nós têm um atributo `custo` que representa tempo/energia/distância entre os pontos (valor arbitrário definido em `rotas.csv`).  
+
+### 2) Rotas (Busca em Grafos)
+- Para calcular uma rota entre dois nós, o sistema carrega o grafo (lista de nós + arestas) e aplica um algoritmo de busca:
+  - **A\***: usa heurística (distância euclidiana entre nó atual e objetivo) para guiar a busca; retorna caminho de menor custo.  
+  - **BFS**: explora por camadas, útil para menor número de arestas (quando arestas têm custo uniforme).  
+  - **DFS**: varre profundidade primeiro — incluído para fins comparativos e educacionais.  
+
+### 3) Clusterização de Pedidos
+- Para dividir pedidos entre `k` entregadores, usa-se **K-Means** sobre as coordenadas (latitude, longitude) dos pedidos.  
+- Após a atribuição, cada cluster representa a zona de entrega de um entregador; rota final dentro do cluster pode usar A* para ordenação de entrega (heurísticas TSP simples podem ser aplicadas).
+
+### 4) API e Fluxo
+- Endpoints principais:
+  - `POST /api/rota` — recebe `{inicio, fim, algoritmo}` e retorna `{caminho, custo}`.
+  - `POST /api/clusterizar` — recebe `{pedidos, num_entregadores}` e retorna clusters por entregador.
+- O fluxo padrão: carregar `locais.csv` + `rotas.csv` → construir grafo → executar algoritmo escolhido → devolver JSON.
+
+---
+
+## ⚙️ Algoritmos Utilizados (resumo técnico)
+
+### A* (A-star)
+- **Entrada:** grafo, nó inicial, nó objetivo, função heurística (h).
+- **Heurística usada:** distância euclidiana entre coordenadas (admissível se custo ≥ distância direta).  
+- **Complexidade:** depende da heurística; no pior caso O(b^d) onde b é fator de ramificação e d profundidade, mas geralmente muito mais eficiente que busca cega.
+
+### BFS (Breadth-First Search)
+- **Uso:** encontrar caminho com menor número de arestas (quando arestas tem custo uniforme).  
+- **Complexidade:** O(V + E) em tempo e O(V) em memória (V = vértices, E = arestas).
+
+### DFS (Depth-First Search)
+- **Uso:** comparação; pode encontrar caminhos profundos rapidamente, mas não garante optimalidade.  
+- **Complexidade:** O(V + E) em tempo, pode ter uso menor de memória em certos grafos.
+
+### K-Means
+- **Entrada:** coordenadas dos pedidos, k = número de entregadores.  
+- **Saída:** k clusters (cada cluster contém índices/nome dos pedidos).  
+- **Observação:** K-Means assume clusters convexos; em geografias complexas, pode não refletir rotas reais (considerar clustering via distância por grafo).
+
+---
+
+## 🗺️ Diagrama do Grafo / Modelo (ASCII)
+
+markdown
+Copiar código
+        Restaurante
+        /     \
+ (4)  /       \ (6)
+    /           \
+Cruzamento2 ------ Cliente5
+/ |
+(7) | (5)
+/
+Cruzamento1 Cliente3
+/ |
+(2) (4) (3)
+Ent. Cliente1 Cliente2
+
+css
+Copiar código
+
+> Legenda: números entre parênteses representam custo da aresta.  
+> Observação: para o README, recomendo um arquivo `assets/grafo.png` com o mesmo diagrama gerado por código (ex.: Matplotlib + NetworkX) para visual mais profissional.
+
+**Sugestão de comando** (gera imagem localmente):
+```python
+# Exemplo rápido (NetworkX + Matplotlib)
+import networkx as nx
+import matplotlib.pyplot as plt
+G = nx.DiGraph()
+G.add_weighted_edges_from([
+  ("Restaurante","Cruzamento2",4),
+  ("Restaurante","Cliente5",6),
+  ("Cruzamento2","Cliente3",5),
+  ("Cruzamento2","Cliente4",5),
+  ("Cruzamento2","Cruzamento1",7),
+  ("Cruzamento1","Cliente2",3),
+  ("Cruzamento1","Cliente1",4),
+  ("Cruzamento1","Entregador A",2),
+])
+pos = nx.spring_layout(G)  # ou pos baseado em coordenadas reais
+nx.draw(G, pos, with_labels=True, node_size=800)
+labels = nx.get_edge_attributes(G,'weight')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+plt.savefig('assets/grafo.png', dpi=200)
+📈 Análise dos Resultados, Eficiência, Limitações e Sugestões de Melhoria
+Análise de Resultados (o que medir)
+Custo total da rota: soma dos pesos das arestas para cada entrega.
+
+Tempo médio por entrega: aproximação com custos convertidos para tempo.
+
+Balanceamento de carga: número de pedidos por entregador após clusterização.
+
+Comparativo A/BFS/DFS:* tempo de execução e custo/qualidade do caminho encontrado.
+
+Eficiência
+A* tende a entregar o melhor compromisso entre tempo de busca e custo do caminho se a heurística for informativa.
+
+BFS/DFS são úteis para comparação; BFS é ótima em grafos não ponderados, DFS não é recomendada para busca ótima.
+
+K-Means é rápido e escalável, mas sua qualidade depende da distribuição geográfica dos pedidos.
+
+Limitações conhecidas
+Dados discretos e simplificados: custos são fixos em rotas.csv — não refletem trânsito, horários, bloqueios.
+
+Heurística A*: se heurística não for admissível, A* pode não ser ótima.
+
+K-Means não considera estradas: clusterização por coordenada pode agrupar pontos separados por barreiras (rios, rodovias sem ligação direta).
+
+Escalabilidade: para centenas de entregas e restrições (janela de tempo, capacidade), será necessário otimizar ou usar heurísticas avançadas / metaheurísticas.
+
+Estado estático: sistema atual é offline — não lida com pedidos em tempo real nem com reotimizações dinâmicas.
+
+Sugestões de Melhoria
+Integrar dados reais de mapa (OpenStreetMap ou Google Directions) para gerar custos baseados em distância/tempo rodoviário.
+
+Adicionar um módulo TSP / VRP (Vehicle Routing Problem) para otimização multi-entregador com restrições reais (capacidade, janelas de tempo).
+
+Clustering baseado em grafo: usar algoritmos que considerem custo em grafo (ex.: spectral clustering com matriz de distâncias por caminho mínimo).
+
+Monitoramento e re-otimização em tempo real: permitir re-roteamento quando um entregador muda de rota ou um pedido é cancelado.
+
+Benchmark automatizado: scripts que rodem A*, BFS, DFS em múltiplos pares (início, fim) e gerem relatório com tempos e custos para análise.
+
+Containerização e CI: Docker + GitHub Actions para testes automatizados e builds reprodutíveis.
+
+
+
 ## Funcionalidades Principais
 
 * **Cálculo de Rota Ótima**: Utiliza o algoritmo A* para encontrar o caminho mais rápido (menor custo) entre dois pontos em um mapa modelado como um grafo.
