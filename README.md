@@ -57,11 +57,15 @@ Ele permite que restaurantes ou serviços de delivery **reduzam tempo e custo de
 
 ---
 
-## 🗺️ 4️⃣ Diagrama do Grafo / Modelo
+## 🗺️ 4️⃣ Diagramas Visuais
 
+### Diagrama do Grafo
 ![Grafo](docs/grafo.png)
 
-> Mostra todos os nós (clientes, cruzamentos, entregadores) e arestas com pesos.
+### Clusterização de Pedidos
+![Clusterização](docs/clusterizacao.png)
+
+> Mostra nós, arestas com pesos e agrupamento dos pedidos em zonas de entrega.
 
 ---
 
