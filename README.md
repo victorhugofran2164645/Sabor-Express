@@ -101,7 +101,7 @@ Diagrama estático gerado: docs/diagrama_grafo_rotas.png
 
 ---
 
-📝 7. Análise dos Resultados
+## 📝 7. Análise dos Resultados
 
 Rotas calculadas com A* garantem o menor percurso total para cada entregador.
 
