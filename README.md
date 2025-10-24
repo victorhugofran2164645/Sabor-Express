@@ -109,4 +109,32 @@ Sabor-Express/
 Python 3.8+
 pip
 
-2. **Instalar dependências:**
+Instalar dependências:
+
+pip install osmnx folium networkx scikit-learn ortools matplotlib pandas numpy
+
+
+Executar código principal:
+
+python src/rota_inteligente.py
+
+
+Gera:
+
+rotas_entrega_real.html → mapa interativo
+
+diagrama_grafo_rotas.png → diagrama estático do grafo
+
+✅ 7. Conclusão
+
+Este projeto demonstra uma solução completa para otimização de entregas urbanas, integrando:
+
+Modelagem de grafo real da cidade
+
+Clusterização de pedidos
+
+Cálculo de rotas com A*
+
+Visualização interativa e estática
+
+Ele é flexível, escalável e pronto para testes com diferentes cidades, números de pedidos e entregadores.
