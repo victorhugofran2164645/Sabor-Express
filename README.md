@@ -96,7 +96,7 @@ Sabor-Express/
 
 ```bash
 # Instalar bibliotecas necessárias
-!pip install osmnx folium networkx scikit-learn ortools
+Bibliotecas já estão no código principal, apenas copiar codigo e executar no Google Colab
 
 ### 6.3 Executar o código principal
 
