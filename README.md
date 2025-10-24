@@ -124,3 +124,155 @@ Implementar TSP heurístico ou exato para otimizar a sequência de entregas.
 Integrar tráfego em tempo real ou restrições de tempo de entrega.
 
 Permitir personalização de clusters por prioridade de pedido ou distância máxima.
+
+
+
+
+
+
+
+🚀 Projeto Final — Sabor Express: Sistema Inteligente de Roteamento de Entregas
+1) Identificação do Projeto
+
+Título do projeto: Sabor Express
+
+Turma/Disciplina: MLDL — 2025.2
+
+Professor: Rodrigo Moreira
+
+Grupo (até 5 integrantes):
+
+Integrante 1 — Gabriel Luiz
+
+Integrante 2 — Sabrina Oliveira
+
+Integrante 3 — Victor Hugo
+
+Integrante 4 — Rafael Silva
+
+2) Pitch
+
+O Sabor Express é um sistema inteligente de roteamento de entregas urbanas, otimizado para reduzir tempo e custo de deslocamento. A solução determina a rota mais curta entre restaurantes e clientes, agrupa pedidos de forma eficiente entre múltiplos entregadores e permite visualizar rotas e clusters de pedidos de forma interativa ou estática.
+
+3) Definição do Problema
+
+Tema: Otimização de rotas de entregas urbanas
+
+Problema: Entregadores perdem tempo e aumentam custo devido a rotas ineficientes e falta de agrupamento de pedidos
+
+Objetivo do projeto:
+
+Criar um grafo urbano real da cidade (São Paulo por padrão)
+
+Gerar pedidos aleatórios e agrupar em clusters simulando entregadores
+
+Calcular rotas usando algoritmos de caminho mínimo
+
+Exibir resultados em mapas interativos e diagramas estáticos
+
+Relevância/Impacto: Redução de tempo e custo de entregas para restaurantes e maior eficiência operacional
+
+4) Estrutura do Projeto
+
+Sabor-Express/
+├── src/
+│   └── rota_inteligente.py        # Código principal do projeto
+├── data/
+│   └── pedidos.csv (opcional)    # Arquivo CSV de pedidos gerados
+├── docs/
+│   ├── diagrama_grafo_rotas.png  # Diagrama estático do grafo com rotas
+│   └── rotas_entrega_real.html   # Mapa interativo com rotas e clusters
+├── requirements.txt              # Dependências do projeto
+└── README.md
+
+5) Algoritmos Utilizados
+Algoritmo	Função no Projeto
+A*	Calcula a rota mais curta entre nós do grafo, considerando distância das ruas
+K-Means	Agrupa pedidos em clusters geográficos, simulando zonas de entrega para cada entregador
+BFS / DFS (opcional)	Podem ser usados para estudo acadêmico, mas não garantem rotas mínimas ponderadas
+6) Abordagem Detalhada
+
+Criação do grafo urbano:
+
+Utilizamos OSMnx para baixar o grafo de ruas da cidade
+
+Cada nó representa um cruzamento e cada aresta uma rua com peso baseado na distância
+
+Geração de pedidos aleatórios:
+
+Seleção de nós aleatórios do grafo para simular pedidos
+
+Clusterização de pedidos:
+
+Aplicamos K-Means para dividir pedidos em clusters, cada um representando a área de atuação de um entregador
+
+Cálculo de rotas:
+
+Para cada cluster, calculamos a rota entre os pedidos usando A*
+
+Permite otimização de percurso por distância
+
+Visualização:
+
+Mapa interativo: Folium com rotas coloridas por cluster
+
+Diagrama estático: Matplotlib mostrando grafo, clusters e rotas
+
+7) Outputs Relevantes
+
+Mapa interativo: docs/rotas_entrega_real.html
+
+Mostra rotas de cada entregador e marcadores de pedidos
+
+Diagrama estático: docs/diagrama_grafo_rotas.png
+
+Exibe grafo urbano, rotas A* e clusters de pedidos coloridos
+
+Exemplo de CSV de pedidos (opcional): data/pedidos.csv
+
+8) Instruções de Execução
+8.1 Pré-requisitos
+
+Python 3.8 ou superior
+
+pip
+
+8.2 Instalar dependências
+pip install osmnx folium networkx scikit-learn ortools matplotlib pandas numpy
+
+8.3 Executar o código principal
+python src/rota_inteligente.py
+
+8.4 Resultado esperado
+
+Mapa interativo gerado: docs/rotas_entrega_real.html
+
+Diagrama estático gerado: docs/diagrama_grafo_rotas.png
+
+
+9) Análise dos Resultados
+
+Rotas calculadas com A* garantem o menor percurso total para cada entregador
+
+Clusterização com K-Means otimiza zonas de entrega
+
+Sistema escalável para múltiplos pedidos e entregadores
+
+Limitações:
+
+Ordem de entrega no cluster simplificada (TSP não exato)
+
+BFS/DFS não consideram peso das ruas
+
+Não considera tráfego em tempo real
+
+Sugestões de melhoria:
+
+Implementar TSP heurístico ou exato para otimizar sequência de entregas
+
+Integrar tráfego em tempo real ou restrições de tempo de entrega
+
+Permitir personalização de clusters por prioridade de pedido ou distância máxima
+
+
+
