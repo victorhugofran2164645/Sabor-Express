@@ -31,6 +31,14 @@ Sabor-Express/
 └── README.md
 
 
+**Explicação rápida das pastas:**
+- `src/` → Contém todo o código-fonte do projeto, funções e scripts principais  
+- `data/` → Armazena os dados brutos ou gerados, como pedidos simulados  
+- `docs/` → Contém diagramas, mapas interativos e relatórios de visualização  
+- `requirements.txt` → Lista de pacotes Python necessários  
+- `README.md` → Documentação e instruções do projeto
+
+
 ---
 
 ## 🧮 3. Algoritmos Utilizados
