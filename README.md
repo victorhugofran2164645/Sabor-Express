@@ -89,6 +89,17 @@ Sabor-Express/
 ```bash
 pip install osmnx folium networkx scikit-learn ortools matplotlib pandas numpy
 
+### 6.3 Executar o código principal
+
+python src/rota_inteligente.py
+
+### 6.4 Resultado esperado
+
+Mapa interativo gerado: docs/rotas_entrega_real.html
+
+Diagrama estático gerado: docs/diagrama_grafo_rotas.png
+
+
 
 📝 7. Análise dos Resultados
 
