@@ -95,7 +95,8 @@ Sabor-Express/
 ### 6.2 Instalar dependências
 
 ```bash
-pip install osmnx folium networkx scikit-learn ortools matplotlib pandas numpy
+# Instalar bibliotecas necessárias
+!pip install osmnx folium networkx scikit-learn ortools
 
 ### 6.3 Executar o código principal
 
