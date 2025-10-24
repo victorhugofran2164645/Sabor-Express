@@ -2,44 +2,34 @@
 
 ## 📌 1. Descrição do Problema e Objetivos
 
-No contexto de entregas urbanas de comida, **uma das maiores dificuldades é otimizar as rotas dos entregadores** para reduzir tempo e custo de deslocamento. Este projeto propõe uma solução de roteamento inteligente para:
+No contexto de entregas urbanas de comida, **otimizar as rotas dos entregadores** é essencial para reduzir tempo e custo de deslocamento. Este projeto oferece uma solução de roteamento inteligente que:
 
-- Determinar a **rota mais curta** entre o restaurante e os clientes.
-- Agrupar pedidos de forma eficiente entre múltiplos entregadores.
-- Visualizar as rotas e clusters de pedidos de forma interativa e estática.
+- Determina a **rota mais curta** entre o restaurante e os clientes.
+- Agrupa pedidos de forma eficiente entre múltiplos entregadores.
+- Visualiza rotas e clusters de pedidos de forma interativa e estática.
 
 **Objetivos do projeto:**
 
-1. Criar um grafo urbano real da cidade para modelar ruas e cruzamentos.
+1. Criar um grafo urbano real da cidade (São Paulo por padrão).
 2. Gerar pedidos aleatórios e agrupar em clusters (simulando entregadores).
-3. Calcular rotas utilizando algoritmos de caminho mínimo.
-4. Exibir resultados de forma interativa e gerar diagramas estáticos para análise.
+3. Calcular rotas usando algoritmos de caminho mínimo.
+4. Exibir resultados em mapas interativos e diagramas estáticos.
 
 ---
 
-## 🛠️ 2. Abordagem Detalhada
+## 🛠️ 2. Estrutura do Projeto
 
-A abordagem adotada é dividida em etapas:
+Sabor-Express/
+├── src/
+│ └── rota_inteligente.py # Código principal do projeto
+├── data/
+│ └── pedidos.csv (opcional) # Arquivo CSV de pedidos gerados
+├── docs/
+│ ├── diagrama_grafo_rotas.png # Diagrama estático do grafo com rotas
+│ └── rotas_entrega_real.html # Mapa interativo com rotas e clusters
+├── requirements.txt # Dependências do projeto
+└── README.md
 
-1. **Criação do grafo urbano**:  
-   - Usamos a biblioteca **OSMnx** para baixar o grafo de ruas da cidade (São Paulo neste exemplo).  
-   - Cada nó do grafo representa um cruzamento ou ponto de interesse, e cada aresta representa uma rua com peso baseado no comprimento.
-
-2. **Geração de pedidos aleatórios**:  
-   - Foram selecionados nós aleatórios do grafo para representar pedidos.  
-   - Cada pedido tem coordenadas (latitude, longitude) associadas.
-
-3. **Clusterização de pedidos**:  
-   - Aplicamos **K-Means** para agrupar os pedidos em clusters correspondentes ao número de entregadores.  
-   - Cada cluster representa a área de atuação de um entregador.
-
-4. **Cálculo de rotas**:  
-   - Para cada cluster, calculamos a rota entre os pedidos usando **A\*** (camino mínimo ponderado).  
-   - Também é possível usar BFS ou DFS para fins de comparação acadêmica, mas **A\*** garante rotas otimizadas por distância.
-
-5. **Visualização**:  
-   - Criamos um **mapa interativo com Folium**, mostrando rotas coloridas por cluster e marcadores para cada pedido.  
-   - Geramos um **diagrama estático com Matplotlib**, exibindo o grafo, clusters e rotas.
 
 ---
 
@@ -48,70 +38,78 @@ A abordagem adotada é dividida em etapas:
 | Algoritmo | Função no Projeto |
 |-----------|-----------------|
 | **A\***  | Calcula a rota mais curta entre nós do grafo, considerando distância das ruas. |
-| **K-Means** | Agrupa pedidos em clusters geográficos, simulando zonas de entrega. |
-| **BFS / DFS (opcional)** | Poderiam ser usados para busca em grafos não ponderados ou comparação acadêmica. |
+| **K-Means** | Agrupa pedidos em clusters geográficos, simulando zonas de entrega para cada entregador. |
+| **BFS / DFS (opcional)** | Poderiam ser usados para estudo acadêmico, mas não garantem rotas mínimas ponderadas. |
 
 ---
 
-## 📊 4. Diagrama do Grafo / Modelo da Solução
+## 📊 4. Abordagem Detalhada
 
-- **Mapa interativo (Folium)**:  
-  - Rotas coloridas por cluster.  
-  - Marcadores indicando pedidos e centroids.  
-  - Salvo como: `rotas_entrega_real.html`.
+1. **Criação do grafo urbano**:  
+   - Utilizamos **OSMnx** para baixar o grafo de ruas da cidade.  
+   - Cada nó representa um cruzamento e cada aresta uma rua com peso baseado na distância.
 
-- **Diagrama estático (Matplotlib)**:  
-  - Mostra o grafo, rotas e clusters.  
-  - Salvo como: `diagrama_grafo_rotas.png`.
+2. **Geração de pedidos aleatórios**:  
+   - Seleção de nós aleatórios do grafo para simular pedidos.
 
----
+3. **Clusterização de pedidos**:  
+   - Aplicamos **K-Means** para dividir pedidos em clusters, cada um representando a área de atuação de um entregador.
 
-## 📈 5. Análise dos Resultados e Eficiência
+4. **Cálculo de rotas**:  
+   - Para cada cluster, calculamos a rota entre os pedidos usando **A\***.  
+   - Permite otimização de percurso por distância.
 
-- As rotas geradas pelo algoritmo **A\*** garantem que cada entregador percorra o menor caminho total dentro do cluster.  
-- A clusterização com **K-Means** cria zonas de entrega geograficamente coerentes, reduzindo tempo e distância.  
-- O sistema é escalável para múltiplos entregadores e diferentes números de pedidos.  
-
-**Limitações:**
-
-1. O TSP dentro de cada cluster é simplificado; a ordem dos pedidos segue a sequência no DataFrame.  
-2. BFS/DFS não são otimizados para distância, apenas para conexão de nós.  
-3. Não considera tráfego em tempo real ou restrições como horários de entrega.  
-
-**Sugestões de melhoria:**
-
-- Implementar **TSP exato ou heurístico** para minimizar distância percorrida.  
-- Integrar dados de **tráfego em tempo real** (Google Maps API ou OpenStreetMap atualizações).  
-- Adicionar otimização baseada em **tempo de entrega e prioridade de pedidos**.  
+5. **Visualização**:  
+   - **Mapa interativo Folium** com rotas coloridas por cluster.  
+   - **Diagrama estático Matplotlib** mostrando grafo, clusters e rotas.
 
 ---
 
-## 🛠️ 6. Parte Prática — Código, Dados e Outputs
+## 📈 5. Outputs Relevantes
 
+- **Mapa interativo**: `docs/rotas_entrega_real.html`  
+  - Mostra rotas de cada entregador e marcadores de pedidos.
 
-### Instruções de Execução
+- **Diagrama estático**: `docs/diagrama_grafo_rotas.png`  
+  - Exibe o grafo urbano, rotas A* e clusters de pedidos coloridos.
 
-1. **Pré-requisitos:**
+- **Exemplo de CSV de pedidos (opcional)**: `data/pedidos.csv`  
+
+---
+
+## ⚙️ 6. Instruções de Execução
+
+### 6.1 Pré-requisitos
+
+- Python 3.8 ou superior  
+- pip  
+
+### 6.2 Instalar dependências
 
 ```bash
-Python 3.8+
-pip
-
-Instalar dependências:
-
 pip install osmnx folium networkx scikit-learn ortools matplotlib pandas numpy
 
 
-Executar código principal:
+📝 7. Análise dos Resultados
 
-python src/rota_inteligente.py
+Rotas calculadas com A* garantem o menor percurso total para cada entregador.
 
+Clusterização com K-Means otimiza zonas de entrega.
 
-Gera:
+Sistema escalável para múltiplos pedidos e entregadores.
 
-rotas_entrega_real.html → mapa interativo
+Limitações:
 
-diagrama_grafo_rotas.png → diagrama estático do grafo
+Ordem de entrega no cluster simplificada (TSP não exato).
 
-### Estrutura do Projeto
+BFS/DFS não consideram peso das ruas.
 
+Não considera tráfego em tempo real.
+
+Sugestões de melhoria:
+
+Implementar TSP heurístico ou exato para otimizar a sequência de entregas.
+
+Integrar tráfego em tempo real ou restrições de tempo de entrega.
+
+Permitir personalização de clusters por prioridade de pedido ou distância máxima.
