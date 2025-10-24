@@ -89,4 +89,24 @@ A abordagem adotada é dividida em etapas:
 ## 🛠️ 6. Parte Prática — Código, Dados e Outputs
 
 ### Estrutura do Projeto
+Sabor-Express/
+├── src/
+│ └── rota_inteligente.py # Código principal
+├── data/
+│ └── pedidos.csv (opcional)
+├── docs/
+│ ├── diagrama_grafo_rotas.png
+│ └── rotas_entrega_real.html
+├── requirements.txt
+└── README.md
 
+
+### Instruções de Execução
+
+1. **Pré-requisitos:**
+
+```bash
+Python 3.8+
+pip
+
+2. **Instalar dependências:**
