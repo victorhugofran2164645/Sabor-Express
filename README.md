@@ -41,6 +41,29 @@ Para executar o código, você precisa apenas do **Google Colab** e das bibliote
 
 ```python
 !pip install osmnx folium networkx scikit-learn ortools
+Além disso, é necessário ter o arquivo rota_inteligente.py com o código completo do projeto.
+
+Executando Todo o Código do Arquivo
+No Google Colab, você pode executar todo o código de uma vez diretamente do arquivo Python.
+
+Passo 1: Fazer upload do arquivo
+No Colab, clique em Arquivos → Upload e selecione rota_inteligente.py.
+
+Passo 2: Executar o código
+Depois de fazer upload, use o seguinte comando para executar todo o script:
+
+python
+Copiar código
+!python rota_inteligente.py
+Isso executará todas as etapas: instalação de bibliotecas, geração de pedidos, clustering, cálculo do TSP, construção de rotas e visualização do mapa interativo.
+
+Passo 3: Abrir o mapa gerado
+O mapa interativo será salvo como:
+
+Copiar código
+rotas_entrega_optimizada_numerada.html
+Para visualizar, clique no arquivo no painel lateral do Colab e abra no navegador.
+
 Estrutura do Código — Passo a Passo
 O código está organizado em 8 etapas principais, cada uma responsável por uma parte do fluxo de roteirização e visualização.
 
@@ -143,8 +166,6 @@ Copiar código
                  |                                      |
                  ---------------------------------------->
                               [Mapa Interativo Folium]
-Cada cluster recebe uma rota otimizada que percorre os pedidos em sequência mínima, respeitando a rede viária real da cidade.
-
 Análise dos Resultados
 Eficiência da solução:
 
@@ -180,12 +201,3 @@ Rotas dinâmicas considerando trânsito em tempo real.
 Visualização com dashboards interativos.
 
 Exportação de rotas para dispositivos GPS ou aplicativos de entrega.
-
-Como Executar
-Abra o Google Colab.
-
-Copie e cole o código do projeto no notebook.
-
-Execute célula por célula seguindo a ordem numérica.
-
-Abra o arquivo rotas_entrega_optimizada_numerada.html para visualizar as rotas.
