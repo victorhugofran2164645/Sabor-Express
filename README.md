@@ -1,240 +1,222 @@
-# 🚚 Sabor Express — Rotas Otimizadas com Ordem
+🚚 Projeto Sabor Express — Rotas Otimizadas
+Descrição do Problema
 
-## 📌 1. Descrição do Problema e Objetivos
-No contexto de entregas urbanas de comida, otimizar as rotas dos entregadores é essencial para reduzir tempo e custo de deslocamento. Este projeto oferece uma solução de roteamento inteligente que:
+No contexto de entregas urbanas, empresas enfrentam desafios para organizar rotas eficientes, reduzir custos com combustível e tempo, e garantir entregas rápidas para múltiplos clientes. A complexidade aumenta quando há vários veículos e centenas de pedidos espalhados pela cidade.
 
-- Determina a rota mais curta entre os pedidos de cada cluster.
-- Agrupa pedidos de forma eficiente entre múltiplos entregadores.
-- Visualiza rotas e clusters de pedidos em um mapa interativo.
+O problema central é otimizar a distribuição de pedidos entre entregadores e determinar a melhor sequência de entregas, considerando as distâncias reais entre endereços.
 
-**Objetivos do projeto:**
+Desafio Proposto
 
-1. Criar um grafo urbano real da cidade (São Paulo por padrão).
-2. Gerar pedidos aleatórios e agrupar em clusters, simulando entregadores.
-3. Calcular rotas usando A* e resolver o TSP por cluster.
-4. Exibir resultados em mapas interativos com ordem de entrega numerada.
+O desafio do projeto é criar um sistema que, dado um conjunto de pedidos em uma cidade:
 
----
+Agrupe os pedidos de forma eficiente entre múltiplos veículos/entregadores.
 
-## 🛠️ 2. Estrutura do Projeto
+Defina a ordem ideal de entrega de cada veículo, minimizando a distância total percorrida.
 
-Sabor-Express/
-├── src/
-│ └── rota_inteligente.py # Código principal do projeto
-├── data/
-│ └── pedidos.csv (opcional) # Arquivo CSV de pedidos gerados
-├── docs/
-│ └── rotas_entrega_optimizada_numerada.html # Mapa interativo gerado
-├── requirements.txt # Dependências do projeto
-└── README.md # Documentação do projeto
+Gere uma visualização interativa das rotas, permitindo acompanhar a sequência de entregas em um mapa.
 
-yaml
-Copiar código
+Objetivos
 
-**Explicação rápida das pastas:**
+O projeto visa:
 
-- `src/` → Contém o código-fonte do projeto e scripts principais.  
-- `data/` → Armazena dados brutos ou simulados, como pedidos aleatórios.  
-- `docs/` → Contém mapas interativos e visualizações do grafo urbano.  
-- `requirements.txt` → Lista de pacotes Python necessários.  
-- `README.md` → Documentação e instruções do projeto.  
+Simular pedidos aleatórios em uma cidade para testes de roteirização.
 
----
+Agrupar pedidos por entregador utilizando o algoritmo K-Means.
 
-## 🧮 3. Algoritmos Utilizados
+Calcular rotas otimizadas para cada cluster de pedidos com o Problema do Caixeiro Viajante (TSP), usando OR-Tools.
 
-| Algoritmo | Função no Projeto |
-|-----------|-----------------|
-| A* | Calcula o caminho mais curto entre os pedidos no grafo urbano. |
-| K-Means | Agrupa pedidos em clusters geográficos, representando cada entregador. |
-| TSP (OR-Tools) | Define a sequência de entrega dentro de cada cluster para minimizar a distância total. |
+Visualizar interativamente as rotas e a ordem de entrega utilizando Folium.
 
----
+Fornecer uma solução modular e escalável, que possa ser adaptada para cidades, número de pedidos e veículos diferentes.
 
-## 📊 4. Código do Projeto
+Funcionalidades
 
-### 4.1 Instalar Bibliotecas
+Geração de pedidos aleatórios em uma cidade.
 
-```bash
-pip install osmnx folium networkx scikit-learn ortools pandas numpy
-4.2 Importar Bibliotecas
-python
-Copiar código
-import osmnx as ox
-import networkx as nx
-import pandas as pd
-import numpy as np
-from sklearn.cluster import KMeans
-from ortools.constraint_solver import routing_enums_pb2
-from ortools.constraint_solver import pywrapcp
-import folium
-import random
-4.3 Definir a Cidade
-python
-Copiar código
+Agrupamento de pedidos por entregador com K-Means.
+
+Cálculo de rotas mais curtas usando OR-Tools e NetworkX.
+
+Visualização interativa das rotas no mapa com ordem numerada de entregas.
+
+Suporte para múltiplos veículos e clusters.
+
+Pré-requisitos
+
+Para executar o código, você precisa apenas do Google Colab e das bibliotecas Python:
+
+!pip install osmnx folium networkx scikit-learn ortools
+
+Estrutura do Código — Passo a Passo
+
+O código do projeto está organizado em 8 etapas principais, cada uma responsável por uma parte do fluxo de roteirização e visualização:
+
+0️⃣ Instalar bibliotecas
+
+Instala bibliotecas para manipulação de grafos, clustering, otimização e visualização interativa.
+
+1️⃣ Importar bibliotecas
+
+Importa todas as bibliotecas utilizadas no projeto:
+
+osmnx e networkx → manipulação da rede viária da cidade e cálculo de caminhos.
+
+pandas e numpy → manipulação de dados.
+
+sklearn.cluster.KMeans → agrupamento de pedidos.
+
+ortools.constraint_solver → resolução do TSP.
+
+folium → criação de mapas interativos.
+
+random → geração de pedidos aleatórios.
+
+2️⃣ Definir a cidade
+
+Define a cidade onde ocorrerão as entregas:
+
 cidade = "São Paulo, Brasil"
-4.4 Baixar a Rede Viária
-python
-Copiar código
-G = ox.graph_from_place(cidade, network_type='drive', simplify=True)
-nodes = list(G.nodes)
-coords_nodes = {n: (G.nodes[n]['y'], G.nodes[n]['x']) for n in nodes}
-4.5 Gerar Pedidos Aleatórios
-python
-Copiar código
-num_pedidos = 20
-pedidos_nodes = random.sample(nodes, num_pedidos)
-pedidos_coords = [coords_nodes[n] for n in pedidos_nodes]
 
-pedidos = pd.DataFrame({
-    'id': list(range(1, num_pedidos + 1)),
-    'node': pedidos_nodes,
-    'lat': [c[0] for c in pedidos_coords],
-    'lon': [c[1] for c in pedidos_coords]
-})
-4.6 Agrupar Pedidos por Cluster (Entregador)
-python
-Copiar código
+3️⃣ Baixar a rede viária
+
+Baixa a rede de ruas da cidade usando OSMnx.
+
+Constrói um grafo com nós (interseções/pedidos) e arestas (ruas com distância real).
+
+Gera um dicionário com as coordenadas geográficas de cada nó.
+
+4️⃣ Gerar pedidos aleatórios
+
+Cria pedidos simulados, com ID, nó correspondente e coordenadas geográficas.
+
+5️⃣ Agrupar pedidos por cluster (entregador)
+
+Aplica K-Means para dividir os pedidos entre veículos, formando clusters.
+
 num_veiculos = 3
 kmeans = KMeans(n_clusters=num_veiculos, random_state=0)
 pedidos['cluster'] = kmeans.fit_predict(pedidos[['lat','lon']])
-4.7 Criar Matriz de Distâncias
-python
-Copiar código
-dist_matrix_total = {}
-for n in pedidos['node']:
-    lengths = nx.single_source_dijkstra_path_length(G, source=n, weight='length')
-    dist_matrix_total[n] = {target: lengths[target] for target in pedidos['node']}
 
-def get_cluster_matrix(cluster_pedidos):
-    nodes = cluster_pedidos['node'].tolist()
-    matrix = [[dist_matrix_total[i][j] for j in nodes] for i in nodes]
-    return matrix
-4.8 Resolver TSP com OR-Tools
-python
-Copiar código
-def solve_tsp(dist_matrix):
-    size = len(dist_matrix)
-    manager = pywrapcp.RoutingIndexManager(size, 1, 0)
-    routing = pywrapcp.RoutingModel(manager)
+6️⃣ Criar matriz de distâncias eficiente
 
-    def distance_callback(from_index, to_index):
-        return int(dist_matrix[manager.IndexToNode(from_index)][manager.IndexToNode(to_index)])
+Calcula a distância entre todos os pares de pedidos usando Dijkstra.
 
-    transit_callback_index = routing.RegisterTransitCallback(distance_callback)
-    routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
+Cria uma matriz de distâncias por cluster, necessária para resolver o TSP.
 
-    search_params = pywrapcp.DefaultRoutingSearchParameters()
-    search_params.first_solution_strategy = routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC
+7️⃣ Resolver TSP com OR-Tools por cluster
 
-    solution = routing.SolveWithParameters(search_params)
-    if solution:
-        index = routing.Start(0)
-        route = []
-        while not routing.IsEnd(index):
-            route.append(manager.IndexToNode(index))
-            index = solution.Value(routing.NextVar(index))
-        return route
-    else:
-        return list(range(size))
-4.9 Calcular Rotas por Cluster
-python
-Copiar código
-rotas_clusters = {}
-for c in pedidos['cluster'].unique():
-    cluster_pedidos = pedidos[pedidos['cluster'] == c].reset_index(drop=True)
-    matrix = get_cluster_matrix(cluster_pedidos)
-    tsp_order = solve_tsp(matrix)
-    rota_nodes = [cluster_pedidos.iloc[i]['node'] for i in tsp_order]
+Para cada cluster, resolve o TSP para definir a ordem ideal de entrega.
 
-    rota_final = []
-    for i in range(len(rota_nodes) - 1):
-        caminho = nx.astar_path(G, source=rota_nodes[i], target=rota_nodes[i+1], weight='length')
-        rota_final.extend(caminho[:-1])
-    rota_final.append(rota_nodes[-1])
-    rotas_clusters[c] = rota_final
-4.10 Visualizar Mapa Interativo
-python
-Copiar código
-centro = [pedidos['lat'].mean(), pedidos['lon'].mean()]
-mapa = folium.Map(location=centro, zoom_start=12)
-cores = ['red','blue','green','purple','orange','darkred','lightblue']
+Cria modelo de roteamento (RoutingModel).
 
-for cluster_id, rota_nodes in rotas_clusters.items():
-    rota_coords = [coords_nodes[n] for n in rota_nodes]
-    folium.PolyLine(
-        rota_coords,
-        color=cores[cluster_id % len(cores)],
-        weight=5,
-        opacity=0.7,
-        tooltip=f'Veículo {cluster_id}'
-    ).add_to(mapa)
+Define função de custo baseada em distâncias reais.
 
-    cluster_pedidos = pedidos[pedidos['cluster']==cluster_id].reset_index(drop=True)
-    node_to_id = {row['node']: row['id'] for _, row in cluster_pedidos.iterrows()}
+Aplica a estratégia PATH_CHEAPEST_ARC.
 
-    pedidos_ordenados = []
-    for n in rota_nodes:
-        if n in node_to_id and node_to_id[n] not in pedidos_ordenados:
-            pedidos_ordenados.append(node_to_id[n])
+Constrói rota completa na rede viária, incluindo nós intermediários.
 
-    for ordem, pedido_id in enumerate(pedidos_ordenados, start=1):
-        row = cluster_pedidos[cluster_pedidos['id']==pedido_id].iloc[0]
-        folium.CircleMarker(
-            location=(row['lat'], row['lon']),
-            radius=10,
-            color='white',
-            fill=True,
-            fill_color=cores[cluster_id % len(cores)],
-            fill_opacity=0.9,
-            popup=f'Pedido {pedido_id} — Ordem {ordem}'
-        ).add_to(mapa)
-        folium.map.Marker(
-            [row['lat'], row['lon']],
-            icon=folium.DivIcon(html=f"""<div style="font-size: 12pt; color: white; text-align:center">{ordem}</div>""")
-        ).add_to(mapa)
+tsp_order = solve_tsp(matrix)
+rota_final = nx.astar_path(G, source=rota_nodes[i], target=rota_nodes[i+1], weight='length')
 
-mapa.save("docs/rotas_entrega_optimizada_numerada.html")
-mapa
-⚙️ 5. Instruções de Execução
-5.1 Pré-requisitos
-bash
-Copiar código
-# Python 3.8 ou superior
-# pip instalado
-5.2 Instalar dependências
-bash
-Copiar código
-pip install osmnx folium networkx scikit-learn ortools pandas numpy
-5.3 Executar o código principal
-bash
-Copiar código
-python src/rota_inteligente.py
-5.4 Resultado esperado
-Mapa interativo gerado: docs/rotas_entrega_optimizada_numerada.html
+8️⃣ Visualizar mapa interativo com ordem numerada
 
-Rotas de cada entregador com sequência de pedidos numerada.
+Centraliza o mapa na média das coordenadas dos pedidos.
 
-📝 6. Análise dos Resultados
-Rotas calculadas com A* garantem o menor percurso entre os pedidos.
+Desenha rotas coloridas por veículo.
 
-Clusterização com K-Means otimiza áreas de entrega para múltiplos entregadores.
+Adiciona marcadores numerados indicando a sequência de entregas.
 
-TSP resolve a ordem de entrega dentro de cada cluster.
+Salva o mapa como HTML interativo:
 
-Limitações:
+mapa.save("rotas_entrega_optimizada_numerada.html")
 
-Não considera tráfego em tempo real.
+Abordagem Adotada
 
-Número de pedidos e veículos fixo na simulação.
+A solução combina clustering de pedidos, otimização de rotas e visualização interativa:
+
+Modelagem da cidade e rede viária com grafo dirigido.
+
+Geração de pedidos aleatórios na cidade.
+
+Agrupamento de pedidos em clusters usando K-Means.
+
+Cálculo de matriz de distâncias entre pedidos.
+
+Resolução do TSP com OR-Tools para cada cluster.
+
+Construção de rota completa usando A*.
+
+Visualização de rotas coloridas e marcadores numerados em Folium.
+
+Algoritmos Utilizados
+
+K-Means → Agrupamento de pedidos por proximidade geográfica.
+
+Dijkstra → Cálculo de menor caminho entre nós da rede viária.
+
+A* → Geração da rota real entre pedidos no grafo.
+
+OR-Tools TSP Solver → Otimização da sequência de entregas dentro de cada cluster.
+
+Diagrama do Grafo/Modelo Usado
+[Pedidos] --> [K-Means] --> [Clusters de Pedidos] --> [TSP OR-Tools]
+                 |                                      |
+                 v                                      v
+           [Matriz de Distâncias]                 [Rota Sequencial]
+                 |                                      |
+                 ---------------------------------------->
+                              [Mapa Interativo Folium]
+
+
+O grafo da cidade representa nós (interseções/pedidos) e arestas (ruas com distância real). Cada cluster recebe uma rota otimizada que percorre os pedidos em sequência mínima.
+
+Análise dos Resultados
+
+Eficiência da solução:
+
+Redução de distância total percorrida por veículo.
+
+Distribuição equilibrada de pedidos entre veículos.
+
+Sequência de entregas otimizada com base em distâncias reais.
+
+Limitações encontradas:
+
+Pedidos aleatórios podem criar clusters desequilibrados.
+
+Não considera restrições de tempo ou capacidade de veículos.
+
+Cálculo em grafos grandes pode ser computacionalmente pesado.
 
 Sugestões de melhoria:
 
-Integrar tráfego em tempo real ou restrições de tempo de entrega.
+Inserir endereços reais ou pontos de interesse.
 
-Permitir personalização de clusters por prioridade de pedido ou distância máxima.
+Adicionar restrições de capacidade e janelas de tempo.
 
-Ajustar TSP para múltiplos veículos simultâneos em grandes volumes de pedidos.
+Pré-processamento da matriz de distâncias para otimização.
+
+Integração com APIs externas (Google Maps, OpenRouteService) para distâncias reais.
+
+Possíveis Extensões
+
+Vários pontos de partida para veículos.
+
+Rotas dinâmicas considerando trânsito em tempo real.
+
+Visualização com dashboards interativos.
+
+Exportação de rotas para dispositivos GPS ou aplicativos de entrega.
+
+Como Executar
+
+Abra o Google Colab.
+
+Copie e cole o código do projeto no notebook.
+
+Execute célula por célula seguindo a ordem numérica.
+
+Abra o arquivo rotas_entrega_optimizada_numerada.html para visualizar as rotas.
 
 
 
