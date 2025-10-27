@@ -201,3 +201,82 @@ Visualização com dashboards interativos.
 
 Exportação de rotas para dispositivos GPS ou aplicativos de entrega
 
+
+
+🔍 Análise dos Resultados, Eficiência, Limitações e Sugestões de Melhoria
+📈 Interpretação dos Resultados
+
+pedidos: mostra IDs, coordenadas e clusters atribuídos por K-Means.
+
+rotas_clusters: define a ordem otimizada de entrega por veículo.
+
+Mapa HTML: permite inspecionar visualmente rotas e validar se há sobreposição ou desvios.
+
+⚙️ Métricas de Eficiência
+
+Distância total percorrida (km)
+
+Tempo total de execução (s)
+
+Balanceamento de entregas (número de pedidos por veículo)
+
+Melhoria percentual em relação a um baseline aleatório
+
+Custo médio por entrega = distância total / número de pedidos
+
+💪 Pontos Fortes
+
+Combina algoritmos clássicos de IA (K-Means, A*, TSP).
+
+Visualização intuitiva e fácil de interpretar.
+
+Código modular e de fácil expansão.
+
+Geração de dados automatizada (sem dependências externas).
+
+⚠️ Limitações
+
+K-Means ignora capacidade ou janelas de tempo.
+
+Agrupamento e roteamento separados → pode não ser ótimo globalmente.
+
+Ignora condições de tráfego ou vias restritas.
+
+Não re-otimiza rotas dinamicamente.
+
+Escalabilidade limitada com muitos pedidos (> 500).
+
+Assume um único depósito para todos os veículos.
+
+💡 Sugestões de Melhoria
+🔹 Curto Prazo
+
+Adicionar métricas de desempenho no código (distância total, tempo de execução, balanceamento).
+
+Usar clustering com restrição de capacidade (K-Means balanceado).
+
+Comparar desempenho com heurísticas simples (baseline aleatório).
+
+🔹 Médio Prazo
+
+Migrar de TSP para VRP (Vehicle Routing Problem) com OR-Tools RoutingModel, incluindo:
+
+capacidade dos veículos,
+
+janelas de entrega (time windows),
+
+múltiplos depósitos.
+
+Adicionar tempos de viagem estimados (velocidade média ou APIs de trânsito).
+
+🔹 Longo Prazo
+
+Implementar roteamento dinâmico em tempo real.
+
+Integrar com dashboards interativos (Plotly/Dash).
+
+Criar cache de distâncias e paralelismo para acelerar execuções.
+
+Simular cenários de pico com variação de demanda.
+
+
