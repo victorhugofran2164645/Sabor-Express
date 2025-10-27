@@ -3,6 +3,5 @@ folium
 networkx
 scikit-learn
 ortools
-matplotlib
 pandas
 numpy
