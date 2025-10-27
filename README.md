@@ -49,6 +49,7 @@ O projeto visa:
 0️⃣ **Instalar bibliotecas**  
 ```python
 !pip install osmnx networkx pandas numpy scikit-learn ortools folium
+
 1️⃣ Importar bibliotecas
 
 python
@@ -62,11 +63,15 @@ from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 import folium
 import random
+
+
 2️⃣ Definir a cidade
 
 python
 Copiar código
 cidade = "São Paulo, Brasil"
+
+
 3️⃣ Baixar a rede viária
 
 Construir grafo com nós (interseções/pedidos) e arestas (ruas com distâncias reais).
@@ -84,11 +89,15 @@ Copiar código
 num_veiculos = 3
 kmeans = KMeans(n_clusters=num_veiculos, random_state=0)
 pedidos['cluster'] = kmeans.fit_predict(pedidos[['lat','lon']])
+
+
 6️⃣ Criar matriz de distâncias eficiente
 
 Calcula a distância entre todos os pares de pedidos usando Dijkstra.
 
 Cria matriz de distâncias por cluster para resolver o TSP.
+
+
 
 7️⃣ Resolver TSP com OR-Tools por cluster
 
@@ -97,6 +106,8 @@ Para cada cluster, resolve o TSP para definir a ordem ideal de entrega.
 Cria modelo de roteamento (RoutingModel) e aplica estratégia PATH_CHEAPEST_ARC.
 
 Constrói rota completa na rede viária usando A*.
+
+
 
 8️⃣ Visualizar mapa interativo com ordem numerada
 
@@ -153,21 +164,28 @@ Dados de pedidos (internos):
 DataFrame pedidos com IDs, coordenadas e clusters.
 
 Instruções de Execução do Projeto
+
+
 1️⃣ Instalar dependências
 python
 Copiar código
 !pip install osmnx networkx pandas numpy scikit-learn ortools folium
+
+
 2️⃣ Obter o código
 bash
 Copiar código
 git clone https://github.com/victorhugofran2164645/Sabor-Express1.git
 ou faça upload do arquivo rota_inteligente.py no Colab.
 
+
+
 3️⃣ Executar o script
 python
 Copiar código
 !python rota_inteligente.py
 Isso executará todas as etapas automaticamente.
+
 
 4️⃣ Visualizar o mapa
 Abra o arquivo gerado: rotas_entrega_optimizada_numerada.html
