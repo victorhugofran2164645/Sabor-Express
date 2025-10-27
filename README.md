@@ -28,163 +28,6 @@ Sabor-Express/
 ├── requirements.txt # Dependências do projeto
 └── README.md # Documentação do projeto
 
-markdown
-Copiar código
-
-**Explicação rápida das pastas:**
-
-- `src/` → Contém o código-fonte do projeto e scripts principais.  
-- `data/` → Armazena dados brutos ou simulados, como pedidos aleatórios.  
-- `docs/` → Contém mapas interativos e visualizações do grafo urbano.  
-- `requirements.txt` → Lista de pacotes Python necessários.  
-- `README.md` → Documentação e instruções do projeto.  
-
----
-
-## 🧮 3. Algoritmos Utilizados
-
-| Algoritmo | Função no Projeto |
-|-----------|-----------------|
-| A* | Calcula o caminho mais curto entre os pedidos no grafo urbano. |
-| K-Means | Agrupa pedidos em clusters geográficos, representando cada entregador. |
-| TSP (OR-Tools) | Define a sequência de entrega dentro de cada cluster para minimizar a distância total. |
-
----
-
-## 📊 4. Abordagem Detalhada
-
-**Criação do grafo urbano:**
-
-- Utilizamos `OSMnx` para baixar o grafo de ruas da cidade de São Paulo.
-- Cada nó representa um cruzamento, e cada aresta uma rua com peso baseado na distância.
-
-**Geração de pedidos aleatórios:**
-
-- Seleção aleatória de nós do grafo para simular pedidos.
-- Armazenamento em um DataFrame com `id`, coordenadas e cluster.
-
-**Clusterização de pedidos:**
-
-- Aplicamos `K-Means` para dividir os pedidos em clusters.
-- Cada cluster representa a área de atuação de um entregador.
-
-**Cálculo de rotas e TSP:**
-
-- Para cada cluster, criamos uma matriz de distâncias entre pedidos.
-- Utilizamos `OR-Tools` para resolver o TSP e definir a sequência de entrega.
-- Calculamos rotas completas no grafo usando A* entre os nós ordenados.
-
-**Visualização:**
-
-- Mapa interativo `Folium` com rotas coloridas por cluster.
-- Marcadores numerados mostram a ordem de entrega de cada pedido.
-
----
-
-## 📈 5. Outputs Relevantes
-
-- **Mapa interativo:** `docs/rotas_entrega_optimizada_numerada.html`  
-  Exibe rotas de cada entregador com pedidos numerados.
-
-- **Exemplo de CSV de pedidos (opcional):** `data/pedidos.csv`  
-
----
-
-## ⚙️ 6. Instruções de Execução
-
-### 6.1 Pré-requisitos
-
-- Python 3.8 ou superior
-- pip
-
-### 6.2 Instalar dependências
-
-```bash
-pip install osmnx folium networkx scikit-learn ortools pandas numpy
-6.3 Executar o código principal
-bash
-Copiar código
-python src/rota_inteligente.py
-6.4 Resultado esperado
-Mapa interativo gerado: docs/rotas_entrega_optimizada_numerada.html
-
-Rotas de cada entregador com sequência de pedidos numerada.
-
-📝 7. Análise dos Resultados
-Rotas calculadas com A* garantem o menor percurso entre os pedidos.
-
-Clusterização com K-Means otimiza áreas de entrega para múltiplos entregadores.
-
-TSP resolve a ordem de entrega dentro de cada cluster.
-
-Limitações:
-
-Não considera tráfego em tempo real.
-
-Número de pedidos e veículos fixo na simulação.
-
-Sugestões de melhoria:
-
-Integrar tráfego em tempo real ou restrições de tempo de entrega.
-
-Permitir personalização de clusters por prioridade de pedido ou distância máxima.
-
-Ajustar TSP para múltiplos veículos simultâneos em grandes volumes de pedidos.
-
-yaml
-Copiar código
-
----
-
-Se você quiser, posso criar **uma versão ainda mais visual do README**, incluindo **imagens do mapa, cores dos clusters e trechos do código**, para deixar ele pronto para colocar no GitHub.  
-
-Quer que eu faça essa versão visual também?
-
-
-
-
-
-
-Você disse:
-todos codigos em Markdown para colocar github
-
-
-
-O ChatGPT disse:
-Perfeito! Vou montar um README completo para GitHub, com todos os códigos em blocos Markdown, pronto para uso, incluindo instalação, execução e exemplos de visualização.
-
-markdown
-Copiar código
-# 🚚 Sabor Express — Rotas Otimizadas com Ordem
-
-## 📌 1. Descrição do Problema e Objetivos
-No contexto de entregas urbanas de comida, otimizar as rotas dos entregadores é essencial para reduzir tempo e custo de deslocamento. Este projeto oferece uma solução de roteamento inteligente que:
-
-- Determina a rota mais curta entre os pedidos de cada cluster.
-- Agrupa pedidos de forma eficiente entre múltiplos entregadores.
-- Visualiza rotas e clusters de pedidos em um mapa interativo.
-
-**Objetivos do projeto:**
-
-1. Criar um grafo urbano real da cidade (São Paulo por padrão).
-2. Gerar pedidos aleatórios e agrupar em clusters, simulando entregadores.
-3. Calcular rotas usando A* e resolver o TSP por cluster.
-4. Exibir resultados em mapas interativos com ordem de entrega numerada.
-
----
-
-## 🛠️ 2. Estrutura do Projeto
-
-Sabor-Express/
-├── src/
-│ └── rota_inteligente.py # Código principal do projeto
-├── data/
-│ └── pedidos.csv (opcional) # Arquivo CSV de pedidos gerados
-├── docs/
-│ └── rotas_entrega_optimizada_numerada.html # Mapa interativo gerado
-├── requirements.txt # Dependências do projeto
-└── README.md # Documentação do projeto
-
 yaml
 Copiar código
 
@@ -212,9 +55,8 @@ Copiar código
 
 ### 4.1 Instalar Bibliotecas
 
-```python
-# Instalar bibliotecas necessárias
-!pip install osmnx folium networkx scikit-learn ortools pandas numpy
+```bash
+pip install osmnx folium networkx scikit-learn ortools pandas numpy
 4.2 Importar Bibliotecas
 python
 Copiar código
@@ -355,20 +197,20 @@ for cluster_id, rota_nodes in rotas_clusters.items():
 mapa.save("docs/rotas_entrega_optimizada_numerada.html")
 mapa
 ⚙️ 5. Instruções de Execução
-Pré-requisitos
-Python 3.8 ou superior
-
-pip
-
-Instalar dependências
+5.1 Pré-requisitos
+bash
+Copiar código
+# Python 3.8 ou superior
+# pip instalado
+5.2 Instalar dependências
 bash
 Copiar código
 pip install osmnx folium networkx scikit-learn ortools pandas numpy
-Executar o código
+5.3 Executar o código principal
 bash
 Copiar código
 python src/rota_inteligente.py
-Resultado esperado
+5.4 Resultado esperado
 Mapa interativo gerado: docs/rotas_entrega_optimizada_numerada.html
 
 Rotas de cada entregador com sequência de pedidos numerada.
@@ -393,6 +235,8 @@ Integrar tráfego em tempo real ou restrições de tempo de entrega.
 Permitir personalização de clusters por prioridade de pedido ou distância máxima.
 
 Ajustar TSP para múltiplos veículos simultâneos em grandes volumes de pedidos.
+
+
 
 
 
