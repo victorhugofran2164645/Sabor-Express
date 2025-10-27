@@ -200,3 +200,6 @@ Rotas dinâmicas considerando trânsito em tempo real.
 Visualização com dashboards interativos.
 
 Exportação de rotas para dispositivos GPS ou aplicativos de entrega
+
+
+![grafo](https://github.com/user-attachments/assets/5d7aa20d-2d0c-4274-b606-455c32b718a8)
