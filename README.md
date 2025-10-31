@@ -269,7 +269,7 @@ múltiplos depósitos.
 
 Adicionar tempos de viagem estimados (velocidade média ou APIs de trânsito).
 
-🔹 Longo Prazo
+Longo Prazo
 
 Implementar roteamento dinâmico em tempo real.
 
