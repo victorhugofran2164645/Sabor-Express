@@ -112,6 +112,42 @@ onde n = pedidos, k = veículos, n_c = pedidos por cluster.
 
 
 
+---
+
+
+## Instruções de execução do projeto
+- Pré-requisitos
+- Antes de rodar o projeto, você precisa ter:
+- Python 3.8+
+- Conexão com a internet (para baixar o grafo da cidade via OSMnx)
+- Bibliotecas necessárias:
+
+  pip install osmnx folium networkx scikit-learn ortools pandas numpy
+
+  Se estiver usando Google Colab, essas bibliotecas podem ser instaladas diretamente dentro de uma célula com !pip install
+
+
+
+  ## Estrutura de pastas recomendada
+  ```
+  .
+  SaborExpress/
+  ├── src/
+  │   └── rotas_otimizadas.py        # seu código Python principal
+  ├── data/
+  │   ├── raw/                       # dados brutos
+  │   └── processed/                 # resultados intermediários
+  ├── docs/
+  │   └── rotas_entrega_optimizada_numerada.html  # mapa final
+  └── README.md
+
+
+Obs.: O código cria automaticamente as pastas data/raw, data/processed e docs se não existirem.
+  
+
+
+
+
 
 
 
