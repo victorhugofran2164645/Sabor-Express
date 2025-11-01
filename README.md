@@ -194,37 +194,7 @@ Obs.: O código cria automaticamente as pastas data/raw, data/processed e docs s
 
 
 **Execute o script:**
-- python src/rota_.inteligente.py
-
-
-### 📊 Diagrama do Grafo
-![grafo](docs/grafo1.jpeg)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- python src/rota_inteligente.py
 
 
 
