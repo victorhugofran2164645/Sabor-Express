@@ -1,9 +1,9 @@
 # ============================================================
-# 🚚 Projeto Sabor Express — Rotas Otimizadas (versão compatível Colab)
+# 🚚 Projeto Sabor Express — Rotas Otimizadas
 # ============================================================
 
 # -----------------------------
-# 0️⃣ Instalar bibliotecas (com versões compatíveis)
+# 0️⃣ Instalar bibliotecas 
 # -----------------------------
 !pip install "protobuf<5" "ortools<9.15" osmnx==2.0.6 folium==0.17.0 networkx==3.4.2 scikit-learn==1.5.2 --quiet
 
