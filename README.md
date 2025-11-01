@@ -65,6 +65,39 @@ O projeto visa:
 - Folium Visualization – renderização de rotas otimizadas em mapa interativo.
 
 
+---
+
+## Diagrama do grafo/modelo usado na solução
+
+
+
+---
+
+
+## Análise dos resultados, eficiência da solução, limitações encontradas e sugestões de melhorias
+- Análise dos Resultados
+- O algoritmo produziu rotas otimizadas de entrega urbana, simulando um cenário real com:
+- 20 pedidos distribuídos em São Paulo (ou outra cidade configurada);
+- 3 veículos/entregadores, definidos via K-Means;
+- Rotas individuais otimizadas para cada entregador via OR-Tools (TSP);
+- Mapa interativo exibindo:
+- Pedidos numerados na sequência de entrega;
+- Rotas coloridas por entregador;
+- Visualização geográfica real (coordenadas OSM).
+- Cada cluster representa um conjunto de entregas geograficamente próximas, e dentro de cada grupo, o OR-Tools encontra a sequência mais curta possível para visitar todos os pedidos daquele entregador.
+O resultado final é um planejamento de rotas minimizando distâncias totais, visualmente validável no mapa HTML
+
+
+- **Eficiência da Solução**
+- Uso de OSMnx + NetworkX → aproveita dados reais da malha urbana (distâncias reais, não euclidianas).
+- Agrupamento prévio (K-Means) → divide o problema grande em subproblemas menores (TSPs menores → muito mais rápidos).
+- OR-Tools (Google) → solucionador robusto e rápido, especializado em problemas de roteamento e logística.
+- Resultados visualmente claros → fácil validar o comportamento e detectar possíveis rotas ineficientes.
+
+
+
+
+
 
 
 
