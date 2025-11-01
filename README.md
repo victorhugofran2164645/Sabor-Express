@@ -75,7 +75,8 @@ O projeto visa:
 
 
 ## Análise dos resultados, eficiência da solução, limitações encontradas e sugestões de melhorias
-- Análise dos Resultados
+- **Análise dos Resultados**
+  
 - O algoritmo produziu rotas otimizadas de entrega urbana, simulando um cenário real com:
 - 20 pedidos distribuídos em São Paulo (ou outra cidade configurada);
 - 3 veículos/entregadores, definidos via K-Means;
@@ -93,8 +94,22 @@ O resultado final é um planejamento de rotas minimizando distâncias totais, vi
 - Agrupamento prévio (K-Means) → divide o problema grande em subproblemas menores (TSPs menores → muito mais rápidos).
 - OR-Tools (Google) → solucionador robusto e rápido, especializado em problemas de roteamento e logística.
 - Resultados visualmente claros → fácil validar o comportamento e detectar possíveis rotas ineficientes.
+- **Eficiência computacional**
+- Para 20 pedidos e 3 veículos, a execução é muito eficiente (segundos).
+- A etapa mais custosa é a geração das matrizes de distância (nx.single_source_dijkstra_path_length), pois calcula distâncias reais na malha.
+- O uso de K-Means reduz drasticamente o custo da otimização global, pois cada veículo trata um subconjunto de pedidos.
+- **Complexidade geral aproximada**
+- Distâncias: O(n * (E log V))
+- TSP por cluster: O(k * n_c²)
+onde n = pedidos, k = veículos, n_c = pedidos por cluster.
 
-
+- **Limitações Encontradas**
+- Escalabilidade O cálculo de todas as distâncias com Dijkstra é caro para muitos pedidos (>100)
+- Ausência de ponto inicial (depósito) As rotas começam em um nó arbitrário do cluster, não em um ponto fixo (ex: restaurante)
+- Distribuição dos clusters O K-Means considera apenas latitude/longitude — não leva em conta o tempo ou tráfego
+- Dependência da qualidade do OSM Áreas com dados incompletos no OpenStreetMap podem gerar distâncias incorretas
+- Aleatoriedade A geração de pedidos é aleatória, sem cenário realista de demanda (não reprodutível sem seed)
+- Critério de otimização único Minimiza apenas a distância, não o tempo nem restrições (janelas de entrega, capacidade etc.)
 
 
 
