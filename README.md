@@ -76,7 +76,6 @@ O projeto visa:
 
 ## Análise dos resultados, eficiência da solução, limitações encontradas e sugestões de melhorias
 - **Análise dos Resultados**
-  
 - O algoritmo produziu rotas otimizadas de entrega urbana, simulando um cenário real com:
 - 20 pedidos distribuídos em São Paulo (ou outra cidade configurada);
 - 3 veículos/entregadores, definidos via K-Means;
