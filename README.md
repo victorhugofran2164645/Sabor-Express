@@ -128,12 +128,12 @@ onde n = pedidos, k = veículos, n_c = pedidos por cluster.
 
 
 
-  ## Estrutura de pastas recomendada
+  ## Estrutura de pastas 
   ```
   .
   SaborExpress/
   ├── src/
-  │   └── rotas_otimizadas.py        # seu código Python principal
+  │   └── rota_inteligente.py        # seu código Python principal
   ├── data/
   │   ├── raw/                       # dados brutos
   │   └── processed/                 # resultados intermediários
@@ -143,7 +143,21 @@ onde n = pedidos, k = veículos, n_c = pedidos por cluster.
 
 
 Obs.: O código cria automaticamente as pastas data/raw, data/processed e docs se não existirem.
-  
+
+
+---
+
+
+## Passo a passo para execução
+- No Google Colab
+- Suba o arquivo rota_inteligente.py na pasta src/ do Colab ou crie uma célula com o código completo.
+- Ao clicar em executar o codigo rota_inteligente.py ela ira ja fazer todos passos automaticamente instalar bibliotecas e fazer a instalação script todo
+
+
+
+
+
+
 
 
 
