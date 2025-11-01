@@ -179,11 +179,7 @@ Obs.: O código cria automaticamente as pastas data/raw, data/processed e docs s
 - **Execute o script**
 - !python src/rota_inteligente.py
 - O código criará os arquivos em data/raw/, data/processed/ e salvará o mapa final em docs/
-
-- **Para visualizar o mapa diretamente no Colab:**
-- from IPython.display import IFrame
-- IFrame("docs/rotas_entrega_optimizada_numerada.html", width=800, height=600)
-
+- Para visualizar o mapa diretamente no Colab
 
 ---
 
