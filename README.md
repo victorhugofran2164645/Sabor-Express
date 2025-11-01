@@ -138,7 +138,7 @@ onde n = pedidos, k = veículos, n_c = pedidos por cluster.
   │   ├── raw/                       # dados brutos
   │   └── processed/                 # resultados intermediários
   ├── docs/
-  │   └── rotas_entrega_optimizada_numerada.html  # mapa final
+  │   └── rotas com grafos.jpeg  # mapa final
   └── README.md
 
 
