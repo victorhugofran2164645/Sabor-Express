@@ -148,10 +148,66 @@ Obs.: O código cria automaticamente as pastas data/raw, data/processed e docs s
 ---
 
 
+## Arquivos de dados utilizados
+- Código gera automaticamente todos os dados, não sendo necessário ter arquivos externos.
+- Dados brutos (data/raw/):
+- cidade_osm.graphml → grafo da cidade
+- pedidos_gerados.csv → pedidos aleatórios com latitude, longitude e nó correspondente
+
+- Dados processados (data/processed/):
+- pedidos_clusterizados.csv → pedidos agrupados por cluster (entregador)
+- matriz_distancias.pkl → matriz de distâncias entre os nós dos pedidos
+- rotas_clusters.pkl → rotas otimizadas por cluster (lista de nós por veículo)
+
+- Dados finais (docs/):
+- rotas_entrega_optimizada_numerada.html → mapa interativo com rotas numeradas
+
+
+
+---
+
+
+
 ## Passo a passo para execução
-- No Google Colab
+
+- **No Google Colab**
 - Suba o arquivo rota_inteligente.py na pasta src/ do Colab ou crie uma célula com o código completo.
-- Ao clicar em executar o codigo rota_inteligente.py ela ira ja fazer todos passos automaticamente instalar bibliotecas e fazer a instalação script todo
+- Instale as bibliotecas:
+
+- !pip install osmnx folium networkx scikit-learn ortools
+
+- **Execute o script**
+- !python src/rota_inteligente.py
+- O código criará os arquivos em data/raw/, data/processed/ e salvará o mapa final em docs/
+
+- **Para visualizar o mapa diretamente no Colab:**
+- from IPython.display import IFrame
+- IFrame("docs/rotas_entrega_optimizada_numerada.html", width=800, height=600)
+
+
+---
+
+
+## No computador local (Windows/Linux/Mac)
+- Abra o terminal/Prompt de Comando.
+- Navegue até a pasta do projeto:
+- cd caminho/para/SaborExpress
+
+**Instale as bibliotecas:**
+- pip install osmnx folium networkx scikit-learn ortools pandas numpy
+
+
+**Execute o script:**
+- python src/rota_.inteligente.py
+
+
+
+
+
+
+
+
+
 
 
 
