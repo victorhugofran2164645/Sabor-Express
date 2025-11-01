@@ -1,11 +1,11 @@
 # ============================================================
-# 🚚 Projeto Sabor Express — Rotas Otimizadas
+# 🚚 Projeto Sabor Express — Rotas Otimizadas (versão compatível Colab)
 # ============================================================
 
 # -----------------------------
-# 0️⃣ Instalar bibliotecas
+# 0️⃣ Instalar bibliotecas (com versões compatíveis)
 # -----------------------------
-!pip install osmnx folium networkx scikit-learn ortools
+!pip install "protobuf<5" "ortools<9.15" osmnx==2.0.6 folium==0.17.0 networkx==3.4.2 scikit-learn==1.5.2 --quiet
 
 # -----------------------------
 # 1️⃣ Importar bibliotecas
@@ -21,13 +21,14 @@ import folium
 import random
 
 # -----------------------------
-# 2️⃣ Definir a cidade
+# 2️⃣ Definir cidade
 # -----------------------------
 cidade = "São Paulo, Brasil"
 
 # -----------------------------
-# 3️⃣ Baixar a rede viária
+# 3️⃣ Baixar rede viária
 # -----------------------------
+print("📥 Baixando rede viária da cidade...")
 G = ox.graph_from_place(cidade, network_type='drive', simplify=True)
 nodes = list(G.nodes)
 coords_nodes = {n: (G.nodes[n]['y'], G.nodes[n]['x']) for n in nodes}
@@ -47,7 +48,7 @@ pedidos = pd.DataFrame({
 })
 
 # -----------------------------
-# 5️⃣ Agrupar pedidos por cluster (entregador)
+# 5️⃣ Agrupar pedidos por cluster (entregadores)
 # -----------------------------
 num_veiculos = 3
 kmeans = KMeans(n_clusters=num_veiculos, random_state=0)
@@ -56,10 +57,11 @@ pedidos['cluster'] = kmeans.fit_predict(pedidos[['lat','lon']])
 # -----------------------------
 # 6️⃣ Criar matriz de distâncias eficiente
 # -----------------------------
+print("📐 Calculando matriz de distâncias...")
 dist_matrix_total = {}
 for n in pedidos['node']:
     lengths = nx.single_source_dijkstra_path_length(G, source=n, weight='length')
-    dist_matrix_total[n] = {target: lengths[target] for target in pedidos['node']}
+    dist_matrix_total[n] = {target: lengths.get(target, np.inf) for target in pedidos['node']}
 
 def get_cluster_matrix(cluster_pedidos):
     nodes = cluster_pedidos['node'].tolist()
@@ -101,23 +103,22 @@ for c in pedidos['cluster'].unique():
     tsp_order = solve_tsp(matrix)
     rota_nodes = [cluster_pedidos.iloc[i]['node'] for i in tsp_order]
 
-    # Construir rota completa no grafo
     rota_final = []
     for i in range(len(rota_nodes) - 1):
-        caminho = nx.astar_path(G, source=rota_nodes[i], target=rota_nodes[i+1], weight='length')
+        caminho = nx.shortest_path(G, source=rota_nodes[i], target=rota_nodes[i+1], weight='length')
         rota_final.extend(caminho[:-1])
     rota_final.append(rota_nodes[-1])
     rotas_clusters[c] = rota_final
 
 # -----------------------------
-# 8️⃣ Visualizar mapa interativo com ordem numerada
+# 8️⃣ Visualizar mapa interativo
 # -----------------------------
+print("🗺️ Gerando mapa interativo...")
 centro = [pedidos['lat'].mean(), pedidos['lon'].mean()]
 mapa = folium.Map(location=centro, zoom_start=12)
 cores = ['red','blue','green','purple','orange','darkred','lightblue']
 
 for cluster_id, rota_nodes in rotas_clusters.items():
-    # Coordenadas da rota
     rota_coords = [coords_nodes[n] for n in rota_nodes]
     folium.PolyLine(
         rota_coords,
@@ -127,7 +128,6 @@ for cluster_id, rota_nodes in rotas_clusters.items():
         tooltip=f'Veículo {cluster_id}'
     ).add_to(mapa)
 
-    # Pedidos ordenados
     cluster_pedidos = pedidos[pedidos['cluster']==cluster_id].reset_index(drop=True)
     node_to_id = {row['node']: row['id'] for _, row in cluster_pedidos.iterrows()}
 
@@ -136,7 +136,6 @@ for cluster_id, rota_nodes in rotas_clusters.items():
         if n in node_to_id and node_to_id[n] not in pedidos_ordenados:
             pedidos_ordenados.append(node_to_id[n])
 
-    # Adicionar marcadores numerados diretamente no mapa
     for ordem, pedido_id in enumerate(pedidos_ordenados, start=1):
         row = cluster_pedidos[cluster_pedidos['id']==pedido_id].iloc[0]
         folium.CircleMarker(
@@ -153,6 +152,7 @@ for cluster_id, rota_nodes in rotas_clusters.items():
             icon=folium.DivIcon(html=f"""<div style="font-size: 12pt; color: white; text-align:center">{ordem}</div>""")
         ).add_to(mapa)
 
-# Salvar mapa interativo
-mapa.save("rotas_entrega_optimizada_numerada.html")
+mapa.save("rotas_entrega_otimizada.html")
+print("✅ Mapa salvo como: rotas_entrega_otimizada.html")
+
 mapa
